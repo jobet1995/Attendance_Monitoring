@@ -1,210 +1,112 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from rest_framework import viewsets
-from .models import (
-    User, Product, Supplier, ProductSupplier, Warehouse, Inventory,
-    Order, OrderDetail, Customer, CustomerOrder, CustomerOrderDetail,
-    Shipment, ShipmentDetail, StockAdjustment, InventoryTransaction
-)
+from django.http import JsonResponse
 from .forms import (
-    UserForm, ProductForm, SupplierForm, ProductSupplierForm, WarehouseForm, InventoryForm,
-    OrderForm, OrderDetailForm, CustomerForm, CustomerOrderForm, CustomerOrderDetailForm,
-    ShipmentForm, ShipmentDetailForm, StockAdjustmentForm, InventoryTransactionForm
+    ProductForm, SupplierForm, WarehouseForm, InventoryForm, ProductSupplierForm,
+    OrderForm, OrderDetailForm, CustomerForm, CustomerOrderForm,
+    CustomerOrderDetailForm, ShipmentForm, ShipmentDetailForm,
+    StockAdjustmentForm, InventoryTransactionForm
 )
-from .serializers import (
-    UserSerializer, ProductSerializer, SupplierSerializer, ProductSupplierSerializer,
-    WarehouseSerializer, InventorySerializer, OrderSerializer, OrderDetailSerializer,
-    CustomerSerializer, CustomerOrderSerializer, CustomerOrderDetailSerializer,
-    ShipmentSerializer, ShipmentDetailSerializer, StockAdjustmentSerializer,
-    InventoryTransactionSerializer
+from .models import (
+    Product, Supplier, Warehouse, Inventory, Order, OrderDetail, ProductSupplier,
+    Customer, CustomerOrder, CustomerOrderDetail, Shipment,
+    ShipmentDetail, StockAdjustment, InventoryTransaction
 )
+
+
 @login_required
 def product_list(request):
-    product = Product.objects.all()
-    return render(request, 'product/product_list.html', {'products': product})
+    products = Product.objects.all()
+    return render(request, 'product/product_list.html', {'products': products})
+
 
 @login_required
 def supplier_list(request):
-    supplier = Supplier.objects.all()
-    return render(request, 'supplier/supplier_list.html', {'supplier': supplier})
+    suppliers = Supplier.objects.all()
+    return render(request, 'supplier/supplier_list.html', {'suppliers': suppliers})
+
 
 @login_required
 def product_supplier_list(request):
-    product_supplier = ProductSupplier.objects.all()
-    return render(request, 'product_supplier/product_list.html', {'product_supplier': product_supplier})
+    # Assuming ProductSupplier is a model in your app
+    product_suppliers = ProductSupplier.objects.all()
+    return render(request, 'product_supplier/product_supplier_list.html', {'product_suppliers': product_suppliers})
+
 
 @login_required
 def warehouse_list(request):
-    warehouse = Warehouse.objects.all()
-    return render(request, 'warehouse/warehouse_list.html', {'warehouse_list': warehouse})
+    warehouses = Warehouse.objects.all()
+    return render(request, 'warehouse/warehouse_list.html', {'warehouses': warehouses})
+
 
 @login_required
 def inventory_list(request):
-    inventory = Inventory.objects.all()
-    return render(request, 'inventory/inventory_list.html', {'inventory': inventory})
+    inventories = Inventory.objects.all()
+    return render(request, 'inventory/inventory_list.html', {'inventories': inventories})
+
 
 @login_required
 def order_list(request):
-    order = Order.objects.all()
-    return render(request, 'order/order_list.html', {'order': order})
+    orders = Order.objects.all()
+    return render(request, 'order/order_list.html', {'orders': orders})
+
 
 @login_required
 def order_detail_list(request):
-    order_detail = OrderDetail.objects.all()
-    return render(request, 'order_detail/order_detail_list.html', {'order_detail': order_detail})
+    order_details = OrderDetail.objects.all()
+    return render(request, 'order_detail/order_detail_list.html', {'order_details': order_details})
+
 
 @login_required
 def customer_list(request):
-    customer = Customer.objects.all()
-    return render(request, 'customer/customer_list.html', {'customer': customer})
+    customers = Customer.objects.all()
+    return render(request, 'customer/customer_list.html', {'customers': customers})
+
 
 @login_required
 def customer_order_list(request):
-    customer_order = CustomerOrder.objects.all()
-    return render(request, 'customer_order/customer_order_list.html', {'customer_order': customer_order})
+    customer_orders = CustomerOrder.objects.all()
+    return render(request, 'customer_order/customer_order_list.html', {'customer_orders': customer_orders})
 
-@login_required
-def order_detail_list(request):
-    order_detail = CustomerOrderDetail.objects.all()
-    return render(request, 'order_detail/order_detail_list.html', {'order_detail': order_detail})
 
 @login_required
 def shipment_list(request):
-    shipment = Shipment.objects.all()
-    return render(request, 'shipment/shipment_list.html', {'shipment': shipment})
+    shipments = Shipment.objects.all()
+    return render(request, 'shipment/shipment_list.html', {'shipments': shipments})
+
 
 @login_required
 def shipment_detail_list(request):
-    shipment_list = ShipmentDetail.objects.all()
-    return render(request, 'shipment_detail/shipment_detail_list.html', {'shipment_detail': shipment_detail})
+    shipment_details = ShipmentDetail.objects.all()
+    return render(request, 'shipment_detail/shipment_detail_list.html', {'shipment_details': shipment_details})
+
 
 @login_required
-def stock_adjustment(request):
-    stock_adjustment = StockAdjustment.objects.all()
-    return render(request, 'stock_adjustment/stock_adjustment_list.html', {'stock_adjustment': stock_adjustment})
+def stock_adjustment_list(request):
+    stock_adjustments = StockAdjustment.objects.all()
+    return render(request, 'stock_adjustment/stock_adjustment_list.html', {'stock_adjustments': stock_adjustments})
+
 
 @login_required
-def inventory_transaction(request):
-    inventory_transaction = InventoryTransaction.objects.all()
-    return render(request, 'inventory_transaction/inventory_transaction_list.html', {'inventory_transaction': inventory_transaction})
+def inventory_transaction_list(request):
+    inventory_transactions = InventoryTransaction.objects.all()
+    return render(request, 'inventory_transaction/inventory_transaction_list.html', {'inventory_transactions': inventory_transactions})
+
 
 def error_404_view(request, exception):
     return render(request, '404.html', status=404)
+
 
 @login_required
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
-        error_response = validate_form(form)
-
-        if error_response:
-            return error_response
-        else:
-            product_name = form.cleaned_data.get('product_name')
-        
-        if Product.objects.filter(product_name=product_name).exists():
-            existing_product = Product.objects.get(product_name=product_name)
-            return JsonResponse({'success': False, 'error': 'Product already exists', 'product': existing_product.id}, status=400)
-        else:
+        if form.is_valid():
             form.save()
-            return JsonResponse({'success': True}, status=201)
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
     else:
         form = ProductForm()
     return render(request, 'product/add_product.html', {'form': form})
-
-@login_required
-def update_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
-        error_response = validate_form(form)
-        if error_response:
-            return error_response
-        
-        product_name = form.cleaned_data.get('product_name')
-        # Check if the product name already exists excluding the current one being updated
-        if Product.objects.filter(product_name=product_name).exclude(pk=product_id).exists():
-            return JsonResponse({'success': False, 'error': 'Product name already exists'}, status=400)
-        
-        form.save()
-        return JsonResponse({'success': True})  # HTTP 200 OK by default
-    else:
-        form = ProductForm(instance=product)
-    return render(request, 'product/update_product.html', {'form': form, 'product': product})
-    
-@login_required
-def delete_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    product.delete()
-    return JsonResponse({'success': True})  # HTTP 200 OK by default
-
-@login_required
-def search_product(request):
-    if request.method == 'GET' and 'query' in request.GET:
-        query = request.GET.get('query')
-        products = Product.objects.filter(product_name__icontains(query))
-        return render(request, 'product/search_product.html', {'products': products, 'query': query})
-    else:
-        return render(request, 'product/search_product.html')
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-class SupplierViewSet(viewsets.ModelViewSet):
-    queryset = Supplier.objects.all()
-    serializer_class = SupplierSerializer
-
-class ProductSupplierViewSet(viewsets.ModelViewSet):
-    queryset = ProductSupplier.objects.all()
-    serializer_class = ProductSupplierSerializer
-
-class WarehouseViewSet(viewsets.ModelViewSet):
-    queryset = Warehouse.objects.all()
-    serializer_class = WarehouseSerializer
-
-class InventoryViewSet(viewsets.ModelViewSet):
-    queryset = Inventory.objects.all()
-    serializer_class = InventorySerializer
-
-class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-
-class OrderDetailViewSet(viewsets.ModelViewSet):
-    queryset = OrderDetail.objects.all()
-    serializer_class = OrderDetailSerializer
-
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-class CustomerOrderViewSet(viewsets.ModelViewSet):
-    queryset = CustomerOrder.objects.all()
-    serializer_class = CustomerOrderSerializer
-
-class CustomerOrderDetailViewSet(viewsets.ModelViewSet):
-    queryset = CustomerOrderDetail.objects.all()
-    serializer_class = CustomerOrderDetailSerializer
-
-class ShipmentViewSet(viewsets.ModelViewSet):
-    queryset = Shipment.objects.all()
-    serializer_class = ShipmentSerializer
-
-class ShipmentDetailViewSet(viewsets.ModelViewSet):
-    queryset = ShipmentDetail.objects.all()
-    serializer_class = ShipmentDetailSerializer
-
-class StockAdjustmentViewSet(viewsets.ModelViewSet):
-    queryset = StockAdjustment.objects.all()
-    serializer_class = StockAdjustmentSerializer
-
-class InventoryTransactionViewSet(viewsets.ModelViewSet):
-    queryset = InventoryTransaction.objects.all()
-    serializer_class = InventoryTransactionSerializer
