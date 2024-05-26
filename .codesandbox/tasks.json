@@ -12,7 +12,10 @@
     "p": {
       "name": "p",
       "command": "python -m manage runserver",
-      "runAtStart": true
+      "runAtStart": true,
+      "preview": {
+        "port": 8000
+      }
     }
   }
 }
