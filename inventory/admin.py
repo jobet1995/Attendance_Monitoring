@@ -7,6 +7,7 @@ Modification Log
 Version     Author           Date                Logs
 1.0         Jobet Casquejo   2024-5-26           Initial Version
 """
+
 from django.contrib import admin
 from .models import (
     User,

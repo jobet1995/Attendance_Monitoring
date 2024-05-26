@@ -7,6 +7,7 @@ Modification Log
 Version     Author           Date                Logs
 1.0         Jobet Casquejo   2024-5-26           Initial Version
 """
+
 from rest_framework import serializers
 from .models import (
     User,
@@ -30,7 +31,7 @@ from .models import (
 class UserSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for User model. Converts User instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the user.
         - username: The username of the user.
         - email: The email address of the user.
@@ -39,14 +40,16 @@ class UserSerializer(serializers.ModelSerializer):
         - role: The role of the user.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for UserSerializer. Defines the fields to be included in the JSON representation of User instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of User instances.
         @Methods: None
         """
+
         model = User
         fields = ["id", "username", "email", "first_name", "last_name", "role"]
 
@@ -54,7 +57,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Product model. Converts Product instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the product.
         - product_name: The name of the product.
         - description: The description of the product.
@@ -63,14 +66,16 @@ class ProductSerializer(serializers.ModelSerializer):
         - reorder_level: The reorder level of the product.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for ProductSerializer. Defines the fields to be included in the JSON representation of Product instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Product instances.
         @Methods: None
         """
+
         model = Product
         fields = [
             "id",
@@ -85,7 +90,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class SupplierSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Supplier model. Converts Supplier instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the supplier.
         - supplier_name: The name of the supplier.
         - contact_name: The contact name of the supplier.
@@ -96,14 +101,16 @@ class SupplierSerializer(serializers.ModelSerializer):
         - phone: The phone number of the supplier.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for SupplierSerializer. Defines the fields to be included in the JSON representation of Supplier instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Supplier instances.
         @Methods: None
         """
+
         model = Supplier
         fields = [
             "id",
@@ -120,20 +127,22 @@ class SupplierSerializer(serializers.ModelSerializer):
 class ProductSupplierSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for ProductSupplier model. Converts ProductSupplier instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the product supplier.
         - product: The product associated with the product supplier.
         - supplier: The supplier associated with the product supplier.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for ProductSupplierSerializer. Defines the fields to be included in the JSON representation of ProductSupplier instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of ProductSupplier instances.
         @Methods: None
         """
+
         model = ProductSupplier
         fields = ["id", "product", "supplier"]
 
@@ -141,20 +150,22 @@ class ProductSupplierSerializer(serializers.ModelSerializer):
 class WarehouseSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Warehouse model. Converts Warehouse instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the warehouse.
         - warehouse_name: The name of the warehouse.
         - location: The location of the warehouse.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for WarehouseSerializer. Defines the fields to be included in the JSON representation of Warehouse instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Warehouse instances.
         @Methods: None
         """
+
         model = Warehouse
         fields = ["id", "warehouse_name", "location"]
 
@@ -162,21 +173,23 @@ class WarehouseSerializer(serializers.ModelSerializer):
 class InventorySerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Inventory model. Converts Inventory instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the inventory.
         - product: The product associated with the inventory.
         - warehouse: The warehouse associated with the inventory.
         - quantity: The quantity of the inventory.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for InventorySerializer. Defines the fields to be included in the JSON representation of Inventory instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Inventory instances.
         @Methods: None
         """
+
         model = Inventory
         fields = ["id", "product", "warehouse", "quantity"]
 
@@ -184,21 +197,23 @@ class InventorySerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Order model. Converts Order instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the order.
         - order_date: The date of the order.
         - supplier: The supplier associated with the order.
         - status: The status of the order.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for OrderSerializer. Defines the fields to be included in the JSON representation of Order instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Order instances.
         @Methods: None
         """
+
         model = Order
         fields = ["id", "order_date", "supplier", "status"]
 
@@ -206,7 +221,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderDetailSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for OrderDetail model. Converts OrderDetail instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the order detail.
         - order: The order associated with the order detail.
         - product: The product associated with the order detail.
@@ -214,14 +229,16 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         - unit_price: The unit price of the order detail.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for OrderDetailSerializer. Defines the fields to be included in the JSON representation of OrderDetail instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of OrderDetail instances.
         @Methods: None
         """
+
         model = OrderDetail
         fields = ["id", "order", "product", "quantity", "unit_price"]
 
@@ -229,7 +246,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Customer model. Converts Customer instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the customer.
         - customer_name: The name of the customer.
         - contact_name: The contact name of the customer.
@@ -240,14 +257,16 @@ class CustomerSerializer(serializers.ModelSerializer):
         - phone: The phone number of the customer.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for CustomerSerializer. Defines the fields to be included in the JSON representation of Customer instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Customer instances.
         @Methods: None
         """
+
         model = Customer
         fields = [
             "id",
@@ -264,21 +283,23 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CustomerOrderSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for CustomerOrder model. Converts CustomerOrder instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the customer order.
         - customer: The customer associated with the customer order.
         - order_date: The date of the customer order.
         - status: The status of the customer order.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for CustomerOrderSerializer. Defines the fields to be included in the JSON representation of CustomerOrder instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of CustomerOrder instances.
         @Methods: None
         """
+
         model = CustomerOrder
         fields = ["id", "customer", "order_date", "status"]
 
@@ -286,7 +307,7 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
 class CustomerOrderDetailSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for CustomerOrderDetail model. Converts CustomerOrderDetail instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the customer order detail.
         - customer_order: The customer order associated with the customer order detail.
         - product: The product associated with the customer order detail.
@@ -294,14 +315,16 @@ class CustomerOrderDetailSerializer(serializers.ModelSerializer):
         - unit_price: The unit price of the customer order detail.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for CustomerOrderDetailSerializer. Defines the fields to be included in the JSON representation of CustomerOrderDetail instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of CustomerOrderDetail instances.
         @Methods: None
         """
+
         model = CustomerOrderDetail
         fields = ["id", "customer_order", "product", "quantity", "unit_price"]
 
@@ -309,7 +332,7 @@ class CustomerOrderDetailSerializer(serializers.ModelSerializer):
 class ShipmentSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for Shipment model. Converts Shipment instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the shipment.
         - shipment_date: The date of the shipment.
         - carrier: The carrier of the shipment.
@@ -317,23 +340,24 @@ class ShipmentSerializer(serializers.ModelSerializer):
         - status: The status of the shipment.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for ShipmentSerializer. Defines the fields to be included in the JSON representation of Shipment instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of Shipment instances.
         @Methods: None
         """
+
         model = Shipment
-        fields = ["id", "shipment_date",
-                  "carrier", "tracking_number", "status"]
+        fields = ["id", "shipment_date", "carrier", "tracking_number", "status"]
 
 
 class ShipmentDetailSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for ShipmentDetail model. Converts ShipmentDetail instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: The unique identifier of the shipment detail.
         - shipment: The shipment associated with the shipment detail.
         - order: The order associated with the shipment detail.
@@ -342,23 +366,24 @@ class ShipmentDetailSerializer(serializers.ModelSerializer):
         - quantity: The quantity of the shipment detail.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for ShipmentDetailSerializer. Defines the fields to be included in the JSON representation of ShipmentDetail instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of ShipmentDetail instances.
         @Methods: None
         """
+
         model = ShipmentDetail
-        fields = ["id", "shipment", "order",
-                  "customer_order", "product", "quantity"]
+        fields = ["id", "shipment", "order", "customer_order", "product", "quantity"]
 
 
 class StockAdjustmentSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for StockAdjustment model. Converts ShipmentDetail instances into JSON representation.
-    @Attributes: 
+    @Attributes:
         - id: This is the unique identifier for each stock adjustment entry. It's typically an auto-incrementing integer assigned by the database to uniquely identify each record.
         - product: This field refers to the product being adjusted in the stock. It likely contains a reference or foreign key to the Product model/table, indicating which product this adjustment applies to.
         - warehouse: This field indicates the warehouse where the stock adjustment is being made. It likely contains a reference or foreign key to the Warehouse model/table, specifying the warehouse location where the adjustment occurred.
@@ -367,17 +392,18 @@ class StockAdjustmentSerializer(serializers.ModelSerializer):
         - reason: This field provides a brief explanation or reason for the stock adjustment. It may contain text describing why the adjustment was necessary, such as "damaged goods," "inventory surplus," "customer return," etc. This helps in tracking the rationale behind each adjustment.
     @Methods: None
     """
+
     class Meta:
         """
         @Descrption: Meta class for StockAdjustmentSerializer. Defines the fields to be included in the JSON representation of StockAdjustment instances.
-        @Attributes: 
+        @Attributes:
             - model: The model class that the serializer is for.
             - fields: The fields to be included in the JSON representation of StockAdjustment.
         @Methods: None
         """
+
         model = StockAdjustment
-        fields = ["id", "product", "warehouse",
-                  "adjustment_date", "quantity", "reason"]
+        fields = ["id", "product", "warehouse", "adjustment_date", "quantity", "reason"]
 
 
 class InventoryTransactionSerializer(serializers.ModelSerializer):

@@ -7,6 +7,7 @@ Modification Log
 Version     Author           Date                Logs
 1.0         Jobet Casquejo   2024-5-26           Initial Version
 """
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import (
@@ -40,6 +41,7 @@ class UserForm(UserCreationForm):
         last_name (CharField): The last name of the user.
         role (ChoiceField): The role assigned to the user account within the inventory system.
     """
+
     class Meta:
         model = User
         fields = [
@@ -78,6 +80,7 @@ class ProductForm(forms.ModelForm):
         unit_price (NumberInput): Rendered as a number input with Bootstrap form control styling.
         reorder_level (NumberInput): Rendered as a number input with Bootstrap form control styling.
     """
+
     class Meta:
         model = Product
         fields = [
@@ -118,6 +121,7 @@ class SupplierForm(forms.ModelForm):
         country (TextInput): Rendered as a text input with Bootstrap form control styling.
         phone (TextInput): Rendered as a text input with Bootstrap form control styling.
     """
+
     class Meta:
         model = Supplier
         fields = [
@@ -152,6 +156,7 @@ class ProductSupplierForm(forms.ModelForm):
         product (Select): Rendered as a select dropdown with Bootstrap form control styling.
         supplier (Select): Rendered as a select dropdown with Bootstrap form control styling.
     """
+
     class Meta:
         model = ProductSupplier
         fields = ["product", "supplier"]
@@ -173,6 +178,7 @@ class WarehouseForm(forms.ModelForm):
         warehouse_name (TextInput): Rendered as a text input with Bootstrap form control styling.
         location (TextInput): Rendered as a text input with Bootstrap form control styling.
     """
+
     class Meta:
         model = Warehouse
         fields = ["warehouse_name", "location"]
@@ -196,6 +202,7 @@ class InventoryForm(forms.ModelForm):
         warehouse (Select): Rendered as a select dropdown with Bootstrap form control styling.
         quantity (NumberInput): Rendered as a number input with Bootstrap form control styling.
     """
+
     class Meta:
         model = Inventory
         fields = ["product", "warehouse", "quantity"]
@@ -218,6 +225,7 @@ class OrderForm(forms.ModelForm):
         supplier (Select): Rendered as a select dropdown with Bootstrap form control styling.
         status (Select): Rendered as a select dropdown with Bootstrap form control styling.
     """
+
     class Meta:
         model = Order
         fields = ["order_date", "supplier", "status"]
@@ -244,6 +252,7 @@ class OrderDetailForm(forms.ModelForm):
         quantity (NumberInput): Rendered as a number input with Bootstrap form control styling.
         unit_price (NumberInput): Rendered as a number input with Bootstrap form control styling.
     """
+
     class Meta:
         model = OrderDetail
         fields = ["order", "product", "quantity", "unit_price"]
@@ -276,6 +285,7 @@ class CustomerForm(forms.ModelForm):
         country (TextInput): Rendered as a text input with Bootstrap form control styling.
         phone (TextInput): Rendered as a text input with Bootstrap form control styling.
     """
+
     class Meta:
         model = Customer
         fields = [
@@ -310,6 +320,7 @@ class CustomerOrderForm(forms.ModelForm):
         order_date (DateInput): Rendered as a date input with Bootstrap form control styling.
         status (Select): Rendered as a select dropdown with Bootstrap form control styling.
     """
+
     class Meta:
         model = CustomerOrder
         fields = ["customer", "order_date", "status"]
@@ -336,6 +347,7 @@ class CustomerOrderDetailForm(forms.ModelForm):
         quantity (NumberInput): Rendered as a number input with Bootstrap form control styling.
         unit_price (NumberInput): Rendered as a number input with Bootstrap form control styling.
     """
+
     class Meta:
         model = CustomerOrderDetail
         fields = ["customer_order", "product", "quantity", "unit_price"]
@@ -361,6 +373,7 @@ class ShipmentForm(forms.ModelForm):
         tracking_number (TextInput): Rendered as a text input with Bootstrap form control styling.
         status (Select): Rendered as a select dropdown with Bootstrap form control styling.
     """
+
     class Meta:
         model = Shipment
         fields = ["shipment_date", "carrier", "tracking_number", "status"]
@@ -390,6 +403,7 @@ class ShipmentDetailForm(forms.ModelForm):
         product (Select): Rendered as a select dropdown with Bootstrap form control styling.
         quantity (NumberInput): Rendered as a number input with Bootstrap form control styling.
     """
+
     class Meta:
         model = ShipmentDetail
         fields = ["shipment", "order", "customer_order", "product", "quantity"]
@@ -418,10 +432,10 @@ class StockAdjustmentForm(forms.ModelForm):
         quantity (NumberInput): Rendered as a number input with Bootstrap form control styling.
         reason (TextInput): Rendered as a text input with Bootstrap form control styling.
     """
+
     class Meta:
         model = StockAdjustment
-        fields = ["product", "warehouse",
-                  "adjustment_date", "quantity", "reason"]
+        fields = ["product", "warehouse", "adjustment_date", "quantity", "reason"]
         widgets = {
             "product": forms.Select(attrs={"class": "form-control"}),
             "warehouse": forms.Select(attrs={"class": "form-control"}),
@@ -449,6 +463,7 @@ class InventoryTransactionForm(forms.ModelForm):
         transaction_type (Select): Rendered as a select dropdown with Bootstrap form control styling.
         transaction_date (DateTimeInput): Rendered as a datetime input with Bootstrap form control styling.
     """
+
     class Meta:
         model = InventoryTransaction
         fields = [

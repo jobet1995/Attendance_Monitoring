@@ -7,6 +7,7 @@ Modification Log
 Version     Author           Date                Logs
 1.0         Jobet Casquejo   2024-5-26           Initial Version
 """
+
 from django.apps import AppConfig
 
 
