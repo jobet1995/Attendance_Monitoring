@@ -91,6 +91,27 @@ def inventory_transaction(request):
 
 def error_404_view(request, exception):
     return render(request, '404.html', status=404)
+
+@login_required
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        error_response = validate_form(form)
+
+        if error_response:
+            return error_response
+        else:
+            product_name = form.cleaned_data.get('product_name')
+        
+        if Product.objects.filter(product_name=product_name).exists():
+            existing_product = Product.objects.get(product_name=product_name)
+            return JsonResponse({'success': False, 'error': 'Product already exists', 'product': existing_product.id}, status=400)
+        else:
+            form.save()
+            return JsonResponse({'success': True}, status=201)
+    else:
+        form = ProductForm()
+    return render(request, 'product/add_product.html', {'form': form})
     
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

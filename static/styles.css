@@ -1,0 +1,44 @@
+/* Mixins */
+/* Variables */
+/* Styles for the login page */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.container .error-code {
+  font-size: 10rem;
+  color: #dc3545;
+  margin: 0;
+  animation: shake 0.5s infinite alternate;
+}
+.container .error-message {
+  font-size: 2rem;
+  color: #6c757d;
+}
+
+@keyframes shake {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */
