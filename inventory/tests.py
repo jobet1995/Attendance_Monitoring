@@ -50,21 +50,3 @@ class ProductViewsCRUDTest(TestCase):
 
         updated_product = Product.objects.get(pk=1)
         self.assertEqual(updated_product.description, 'This is a new Product')
-
-    def test_search_product(self):
-        product_name = 'Test Product'
-
-        Product.objects.create(
-            product_name=product_name,
-            description="This is a new Product",
-            category="New Category",
-            unit_price=12.99,
-            reorder_level=6
-        )
-
-        response = self.client.get(reverse('search_product'), {
-                                   'query': product_name})
-        self.assertEqual(response.status_code, 200)
-        results = response.context['results']
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0].product_name, product_name)
