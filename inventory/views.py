@@ -98,16 +98,6 @@ def add_product(request):
 
 
 @login_required
-def delete_product(request, product_id):
-    try:
-        product = Product.objects.get(pk=product_id)
-        product.delete()
-        return JsonResponse({"success": True})
-    except Product.DoesNotExist:
-        return HttpResponseNotFound("Product Not Found")
-
-
-@login_required
 def search_product(request):
     query = request.GET.get("query", "")
     products = Product.objects.filter(product_name__icontains=query)
@@ -165,7 +155,8 @@ def update_product(request, product_id):
         else:
             form = ProductForm(instance=product)
         return render(
-            request, "inventory/update_product.html", {"form": form, "product": product}
+            request, "inventory/update_product.html", {
+                "form": form, "product": product}
         )
     except Product.DoesNotExist:
         # HTTP 404 Not Found
