@@ -1,5 +1,27 @@
 {
   "dependencies": {
     "prettier": "^3.2.5"
-  }
+  },
+  "name": "python",
+  "version": "1.0.0",
+  "description": "this is package ",
+  "main": "index.js",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write '**/*.{html,css,xml,json}'",
+    "lint-js": "eslint '**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mrmagic12/Attendance_Monitoring.git"
+  },
+  "author": "Jobet Casquejo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mrmagic12/Attendance_Monitoring/issues"
+  },
+  "homepage": "https://github.com/Mrmagic12/Attendance_Monitoring#readme"
 }
