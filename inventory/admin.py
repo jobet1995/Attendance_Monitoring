@@ -1,3 +1,12 @@
+"""
+@Description: Admin for Product, Supplier, ProductSupplier, Warehouse, Inventory, Order, OrderDetail, Customer, CustomerOrder, CustomerOrderDetail, Shipment, ShipmentDetail, StockAdjustment, and InventoryTransaction.
+@Author: Jobet P. Casquejo
+@Last Date Modified: 2024-5-26
+@Last Modified By: Jobet P. Casquejo
+Modification Log
+Version     Author           Date                Logs
+1.0         Jobet Casquejo   2024-5-26           Initial Version
+"""
 from django.contrib import admin
 from .models import (
     User,
