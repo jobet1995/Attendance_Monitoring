@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Product, User
 from django.urls import reverse
+from datetime import datetime
 
 
 class ProductViewsCRUDTest(TestCase):
@@ -50,3 +51,17 @@ class ProductViewsCRUDTest(TestCase):
 
         updated_product = Product.objects.get(pk=1)
         self.assertEqual(updated_product.description, 'This is a new Product')
+
+    def test_add_supplier(self):
+        response = self.client.post(reverse('add_supplier'), {
+            'supplier_name': 'Test',
+            'contact_name': 'Test Contact',
+            'address': 'Test Address',
+            'city': 'Test City',
+            'post_code': '2201',
+            'country': 'PH',
+            'phone': '123456789',
+            'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        })
+
+        self.assertEqual(response.status_code, 302)
