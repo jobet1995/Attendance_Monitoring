@@ -22,16 +22,16 @@ class User(AbstractUser):
 
     groups = models.ManyToManyField(
         Group,
-        verbose_name=_('groups'),
+        verbose_name=_("groups"),
         blank=True,
-        related_name='inventory_users_groups'  # Unique related_name
+        related_name="inventory_users_groups",  # Unique related_name
     )
 
     user_permissions = models.ManyToManyField(
         Permission,
-        verbose_name=_('user permissions'),
+        verbose_name=_("user permissions"),
         blank=True,
-        related_name='inventory_users_permissions'  # Unique related_name
+        related_name="inventory_users_permissions",  # Unique related_name
     )
 
 

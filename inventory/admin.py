@@ -1,8 +1,20 @@
 from django.contrib import admin
 from .models import (
-    User, Product, Supplier, ProductSupplier, Warehouse, Inventory,
-    Order, OrderDetail, Customer, CustomerOrder, CustomerOrderDetail,
-    Shipment, ShipmentDetail, StockAdjustment, InventoryTransaction
+    User,
+    Product,
+    Supplier,
+    ProductSupplier,
+    Warehouse,
+    Inventory,
+    Order,
+    OrderDetail,
+    Customer,
+    CustomerOrder,
+    CustomerOrderDetail,
+    Shipment,
+    ShipmentDetail,
+    StockAdjustment,
+    InventoryTransaction,
 )
 
 admin.site.register(User)
