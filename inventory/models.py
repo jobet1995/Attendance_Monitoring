@@ -5,15 +5,15 @@ from django.utils import timezone
 
 class User(AbstractUser):
     ROLE_CHOICES = [
-        ('Administrator', 'Administrator'),
-        ('Inventory Manager', 'Inventory Manager'),
-        ('Warehouse Staff', 'Warehouse Staff'),
-        ('Purchasing Manager', 'Purchasing Manager'),
-        ('Sales Manager', 'Sales Manager'),
-        ('Customer Service Representative', 'Customer Service Representative'),
-        ('Accountant', 'Accountant'),
-        ('Auditor', 'Auditor'),
-        ('System User', 'System User'),
+        ("Administrator", "Administrator"),
+        ("Inventory Manager", "Inventory Manager"),
+        ("Warehouse Staff", "Warehouse Staff"),
+        ("Purchasing Manager", "Purchasing Manager"),
+        ("Sales Manager", "Sales Manager"),
+        ("Customer Service Representative", "Customer Service Representative"),
+        ("Accountant", "Accountant"),
+        ("Auditor", "Auditor"),
+        ("System User", "System User"),
     ]
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
 
@@ -49,7 +49,7 @@ class ProductSupplier(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (('product', 'supplier'),)
+        unique_together = (("product", "supplier"),)
 
 
 class Warehouse(models.Model):
@@ -68,20 +68,22 @@ class Inventory(models.Model):
     last_updated = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        unique_together = (('product', 'warehouse'),)
+        unique_together = (("product", "warehouse"),)
 
 
 class Order(models.Model):
     ORDER_STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Completed', 'Completed'),
-        ('Cancelled', 'Cancelled'),
+        ("Pending", "Pending"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
     ]
     order_date = models.DateField()
     supplier = models.ForeignKey(
-        Supplier, on_delete=models.SET_NULL, null=True, blank=True)
+        Supplier, on_delete=models.SET_NULL, null=True, blank=True
+    )
     status = models.CharField(
-        max_length=50, choices=ORDER_STATUS_CHOICES, default='Pending')
+        max_length=50, choices=ORDER_STATUS_CHOICES, default="Pending"
+    )
     created_at = models.DateTimeField(default=timezone.now)
 
 
@@ -108,14 +110,15 @@ class Customer(models.Model):
 
 class CustomerOrder(models.Model):
     ORDER_STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Completed', 'Completed'),
-        ('Cancelled', 'Cancelled'),
+        ("Pending", "Pending"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
     ]
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     order_date = models.DateField()
     status = models.CharField(
-        max_length=50, choices=ORDER_STATUS_CHOICES, default='Pending')
+        max_length=50, choices=ORDER_STATUS_CHOICES, default="Pending"
+    )
     created_at = models.DateTimeField(default=timezone.now)
 
 
@@ -128,24 +131,25 @@ class CustomerOrderDetail(models.Model):
 
 class Shipment(models.Model):
     SHIPMENT_STATUS_CHOICES = [
-        ('In Transit', 'In Transit'),
-        ('Delivered', 'Delivered'),
-        ('Cancelled', 'Cancelled'),
+        ("In Transit", "In Transit"),
+        ("Delivered", "Delivered"),
+        ("Cancelled", "Cancelled"),
     ]
     shipment_date = models.DateField()
     carrier = models.CharField(max_length=255, blank=True, null=True)
     tracking_number = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(
-        max_length=50, choices=SHIPMENT_STATUS_CHOICES, default='In Transit')
+        max_length=50, choices=SHIPMENT_STATUS_CHOICES, default="In Transit"
+    )
     created_at = models.DateTimeField(default=timezone.now)
 
 
 class ShipmentDetail(models.Model):
     shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE)
-    order = models.ForeignKey(
-        Order, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     customer_order = models.ForeignKey(
-        CustomerOrder, on_delete=models.SET_NULL, null=True, blank=True)
+        CustomerOrder, on_delete=models.SET_NULL, null=True, blank=True
+    )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
@@ -160,12 +164,11 @@ class StockAdjustment(models.Model):
 
 class InventoryTransaction(models.Model):
     TRANSACTION_TYPE_CHOICES = [
-        ('IN', 'IN'),
-        ('OUT', 'OUT'),
+        ("IN", "IN"),
+        ("OUT", "OUT"),
     ]
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    transaction_type = models.CharField(
-        max_length=50, choices=TRANSACTION_TYPE_CHOICES)
+    transaction_type = models.CharField(max_length=50, choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateTimeField(default=timezone.now)
