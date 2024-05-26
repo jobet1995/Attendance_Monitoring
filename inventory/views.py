@@ -110,3 +110,84 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'product/add_product.html', {'form': form})
+
+
+@login_required
+def update_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'product/update_product.html', {'form': form, 'product': product})
+
+
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    return JsonResponse({'success': True})
+
+
+@login_required
+def search_product(request):
+    if request.method == 'GET' and 'query' in request.GET:
+        query = request.GET.get('query')
+        products = Product.objects.filter(product_name__icontains=query)
+        return render(request, 'product/search_product.html', {'products': products, 'query': query})
+    else:
+        return render(request, 'product/search_product.html')
+
+
+@login_required
+def add_supplier(request):
+    if request.method == 'POST':
+        form = SupplierForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    else:
+        form = SupplierForm()
+    return render(request, 'supplier/add_supplier.html', {'form': form})
+
+
+@login_required
+def update_supplier(request, supplier_id):
+    supplier = get_object_or_404(Supplier, pk=supplier_id)
+    if request.method == 'POST':
+        form = SupplierForm(request.POST, instance=supplier)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    else:
+        form = SupplierForm(instance=supplier)
+    return render(request, 'supplier/update_supplier.html', {'form': form, 'supplier': supplier})
+
+
+@login_required
+def delete_supplier(request, supplier_id):
+    supplier = get_object_or_404(Supplier, pk=supplier_id)
+    supplier.delete()
+    return JsonResponse({'success': True})
+
+
+@login_required
+def search_supplier(request):
+    if request.method == 'GET' and 'query' in request.GET:
+        query = request.GET.get('query')
+        suppliers = Supplier.objects.filter(supplier_name__icontains=query)
+        return render(request, 'supplier/search_supplier.html', {'suppliers': suppliers, 'query': query})
+    else:
+        return render(request, 'supplier/search_supplier.html')
