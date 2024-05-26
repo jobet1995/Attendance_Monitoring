@@ -89,7 +89,9 @@ def inventory_transaction(request):
     inventory_transaction = InventoryTransaction.objects.all()
     return render(request, 'inventory_transaction/inventory_transaction_list.html', {'inventory_transaction': inventory_transaction})
 
-
+def error_404_view(request, exception):
+    return render(request, '404.html', status=404)
+    
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
