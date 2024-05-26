@@ -112,7 +112,43 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'product/add_product.html', {'form': form})
+
+@login_required
+def update_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        error_response = validate_form(form)
+        if error_response:
+            return error_response
+        
+        product_name = form.cleaned_data.get('product_name')
+        # Check if the product name already exists excluding the current one being updated
+        if Product.objects.filter(product_name=product_name).exclude(pk=product_id).exists():
+            return JsonResponse({'success': False, 'error': 'Product name already exists'}, status=400)
+        
+        form.save()
+        return JsonResponse({'success': True})  # HTTP 200 OK by default
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'product/update_product.html', {'form': form, 'product': product})
     
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    return JsonResponse({'success': True})  # HTTP 200 OK by default
+
+@login_required
+def search_product(request):
+    if request.method == 'GET' and 'query' in request.GET:
+        query = request.GET.get('query')
+        products = Product.objects.filter(product_name__icontains(query))
+        return render(request, 'product/search_product.html', {'products': products, 'query': query})
+    else:
+        return render(request, 'product/search_product.html')
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
@@ -14,8 +15,24 @@ class User(AbstractUser):
         ("Accountant", "Accountant"),
         ("Auditor", "Auditor"),
         ("System User", "System User"),
+        ("Customer", "Customer"),
+        ("Standard User", "Standard User"),
     ]
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
+
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name=_('groups'),
+        blank=True,
+        related_name='inventory_users_groups'  # Unique related_name
+    )
+
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_('user permissions'),
+        blank=True,
+        related_name='inventory_users_permissions'  # Unique related_name
+    )
 
 
 class Product(models.Model):
