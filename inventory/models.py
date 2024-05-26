@@ -1,3 +1,12 @@
+"""
+@Description: Models for Product, Supplier, ProductSupplier, Warehouse, Inventory, Order, OrderDetail, Customer, CustomerOrder, CustomerOrderDetail, Shipment, ShipmentDetail, StockAdjustment, and InventoryTransaction.
+@Author: Jobet P. Casquejo
+@Last Date Modified: 2024-5-26
+@Last Modified By: Jobet P. Casquejo
+Modification Log
+Version     Author           Date                Logs
+1.0         Jobet Casquejo   2024-5-26           Initial Version
+"""
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils import timezone
@@ -5,6 +14,24 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
+    """
+    @Description: Custom user model for managing different roles within the inventory system.
+    @Attributes:
+        role (str): The role of the user within the inventory system. Choices include:
+            - Administrator: Has full access and control over the inventory system.
+            - Inventory Manager: Responsible for managing inventory-related tasks.
+            - Warehouse Staff: Handles operations within the warehouse, such as stocking and shipping.
+            - Purchasing Manager: Manages purchasing activities and vendor relationships.
+            - Sales Manager: Oversees sales operations and customer relationships.
+            - Customer Service Representative: Handles customer inquiries and support requests.
+            - Accountant: Manages financial transactions and reporting.
+            - Auditor: Conducts audits and ensures compliance with regulations.
+            - System User: Internal user for system operations and maintenance.
+            - Customer: Represents external customers who interact with the system.
+            - Standard User: Basic user with limited access and permissions.
+        groups (ManyToManyField): The groups to which the user belongs.
+        user_permissions (ManyToManyField): Specific permissions granted to the user.
+    """
     ROLE_CHOICES = [
         ("Administrator", "Administrator"),
         ("Inventory Manager", "Inventory Manager"),
@@ -36,6 +63,18 @@ class User(AbstractUser):
 
 
 class Product(models.Model):
+    """
+    @Description: The Product model represents a product with various properties.
+    A product has a name, description, category, unit price, reorder level, 
+    and the timestamp it was created at as characteristics.
+    @Fields:
+        - product_name: This field is used to store the name of the product. Since it’s a CharField, it's used for shorter strings. The max_length=255 indicates the maximum length of the character field, meaning that the product name can't be longer than 255 characters. This field must be filled since NULL values are not allowed for it.
+        - description: The description field is used for holding more detailed information about the product. Unlike product_name, this field can hold a substantial amount of text as it's a TextField. blank=True, null=True allows this field to be blank or NULL, meaning that it is not mandatory to provide a description.
+        - category: This field is used to specify the category to which the product belongs. Like product_name, it’s a CharField and can't exceed 255 characters. But with blank=True, null=True, this field can be left blank during product creation/update if the category is not known or relevant.
+        - unit_price: This field represents the base price of a single unit of the product. It's a DecimalField, which means it can store a very precise number and is excellent for storing an exact price. The max_digits=10 parameter indicates that no more than 10 digits may be used to represent the number, and decimal_places=2 specifies that 2 of those digits are reserved for representing decimal places.
+        - reorder_level: The reorder_level field can be used in inventory management, for instance, to kick off a restocking process. If the amount of product falls below the reorder_level, it might be a good idea to reorder the product. default=0 means that if a reorder level is not specified when a product is created, it defaults to 0.
+        - created_at:  This field is used for record-keeping purposes, so you know when each product was created. By default, when a product instance is created, it gets given a created_at value of the current date and time.
+    """
     product_name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=255, blank=True, null=True)
@@ -48,6 +87,20 @@ class Product(models.Model):
 
 
 class Supplier(models.Model):
+    """
+    @Description: Supplier model represents a provider of products. 
+    This model represents a product supplier. It contains the supplier's name, email and other details. Supplier instances can be related with a product instance, meaning a product instance can reference a supplier that provides the product.
+    A Supplier instance has `supplier_name` as unique identifier referring to the name of the supplier. `email` field contains the email address of the supplier. `contact_number` holds phone number of the supplier. `address` is the physical address of the supplier company.
+    @Fields:
+        - supplier_name: Stores the name of the supplier company.
+        - contact_name: Stores the name of a contact person in the supplier's company.
+        - address: Contains the physical business address of the supplier.
+        - city: Holds the city where the supplier's company is located.
+        - postal_code: Stores the postal or ZIP code associated with the supplier's address.
+        - country: Contains the country of the supplier's business location.
+        - phone: Holds the phone number for contacting the supplier.
+        - created_at: Automatically gets the date and time when a new supplier record is created.
+    """
     supplier_name = models.CharField(max_length=255)
     contact_name = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
@@ -62,6 +115,13 @@ class Supplier(models.Model):
 
 
 class ProductSupplier(models.Model):
+    """
+    @Description: The ProductSupplier model represents the relationship between the Product and Supplier models.
+    This model is essentially an association or "bridging" model between Product and Supplier, enabling the many-to-many relationship between them.
+    @Fields:
+        - product: A foreign key field that references an instance of the Product model.
+        - supplier: A foreign key field that references an instance of the Supplier model.
+    """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
@@ -70,6 +130,14 @@ class ProductSupplier(models.Model):
 
 
 class Warehouse(models.Model):
+    """
+    @Description: The Warehouse model represents a storage facility where products are stored.
+    It is essential for tracking the physical location of goods and managing logistics. Each warehouse stores multiple products and each product can be stored in multiple warehouses, creating a many-to-many relationship.
+    Fields:
+        - name: The name of the Warehouse. It can be the location or any identifier for the warehouse.
+        - address: The physical location of the warehouse.
+        - inventory: Many-to-many field with the Inventory model representing the products stored in the warehouse.
+    """
     warehouse_name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
@@ -79,6 +147,14 @@ class Warehouse(models.Model):
 
 
 class Inventory(models.Model):
+    """
+    @Description: The Inventory model represents the available stock of products.
+    This model keeps track of available quantities of different products. It is crucial for managing product availability and carrying out inventory checks.
+    @Fields: 
+        - product: A foreign key field that references an instance of the Product model.
+        - quantity: An integer field that indicates the number of pieces of a specific product in stock.
+        - last_updated: A datetime field which stores the last moment the inventory record was updated.
+    """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -89,6 +165,16 @@ class Inventory(models.Model):
 
 
 class Order(models.Model):
+    """
+    @Description: The Order model represents a customer's order.
+    This model is utilized to manage customer orders for products, track order status, and manage order fulfillment.
+    @Fields:
+        - customer: A foreign key field linking to an instance of the Customer model.
+        - product: A foreign key field linking to an instance of the Product model.
+        - quantity: An integer field indicating the order quantity for a specific product.
+        - order_date: A datetime field representing when the order was placed.
+        - order_status: A choice field indicating the current status of the order.
+    """
     ORDER_STATUS_CHOICES = [
         ("Pending", "Pending"),
         ("Completed", "Completed"),
@@ -105,6 +191,15 @@ class Order(models.Model):
 
 
 class OrderDetail(models.Model):
+    """
+    @Description: The OrderDetail model represents detailed information for each order.
+    This model is used to store individual product line items in an order, including quantity, product, and price.
+    @Fields:
+        - order: A foreign key field linking to an instance of the Order model.
+        - product: A foreign key field linking to an instance of the Product model.
+        - quantity: An integer field indicating the quantity of a specific product in the order.
+        - price_per_item: A decimal field storing the price for each instance of the product in the order.
+    """
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -112,6 +207,14 @@ class OrderDetail(models.Model):
 
 
 class Customer(models.Model):
+    """
+    @Description: The Customer model represents customers who place orders.
+    This model stores customer details like names, contact information and their associated orders.
+    @Fields:
+        - name: A character field storing the name of the customer.
+        - contact_details: A text field saving the contact details of the customer.
+        - orders: A many-to-many field linking to the Order model, indicating which orders have been placed by the customer.
+    """
     customer_name = models.CharField(max_length=255)
     contact_name = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
@@ -126,6 +229,14 @@ class Customer(models.Model):
 
 
 class CustomerOrder(models.Model):
+    """
+    @Description: The CustomerOrder model is a bridge between customers and their orders.
+    This model connects a customer to their respective orders. It helps in tracking which orders were placed by which customers, their statuses and any other information pertinent to a sales order.
+    @Fields: 
+        - customer: A foreign key field linking to an instance of the Customer model.
+        - order_date: A datetime field storing when the order was created.
+        - status: A character field indicating the status of the order.
+    """
     ORDER_STATUS_CHOICES = [
         ("Pending", "Pending"),
         ("Completed", "Completed"),
@@ -140,6 +251,15 @@ class CustomerOrder(models.Model):
 
 
 class CustomerOrderDetail(models.Model):
+    """
+    @Description: The CustomerOrderDetail model provides detailed information about each order placed by customers.
+    This model connects a customer order to the individual items it consists of. It helps in tracking which products were included in each order, their quantities and any extra details, such as special instructions regarding the order.
+    @Fields:
+        - order: A foreign key field linking to an instance of the CustomerOrder model.
+        - product: A foreign key field linking to an instance of the Product model.
+        - quantity: An integer field that stores the number of units of the product that were ordered.
+        - special_instructions: A text field that can store any special instructions or notes given by the customer regarding a particular product in the order.
+    """
     customer_order = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -147,6 +267,15 @@ class CustomerOrderDetail(models.Model):
 
 
 class Shipment(models.Model):
+    """
+    @Description: The Shipment model tracks the delivery of each customer order.
+    This model details the process of getting an order from the warehouse to the customer's doorstep. It documents critical steps such as the departure from the warehouse, arrival at the courier, and delivery to the customer.
+    @Fields:
+        - order: A foreign key field linking to an instance of the CustomerOrder model.
+        - departure_time: A datetime field recording when the order left the warehouse.
+        - courier_arrival_time: A datetime field logging when the shipment arrived at the courier.
+        - delivery_time: A datetime field cataloging when the customer received the order.
+    """
     SHIPMENT_STATUS_CHOICES = [
         ("In Transit", "In Transit"),
         ("Delivered", "Delivered"),
@@ -162,8 +291,16 @@ class Shipment(models.Model):
 
 
 class ShipmentDetail(models.Model):
+    """
+    @Description: The ShipmentDetail model caters to the need for meticulous record-keeping for each shipment in the system.
+    @Fields:
+        - shipment: A foreign key field linking to an instance of the Shipment model, effectively allowing the system to correlate a series of packages, tracking numbers, and carriers to each shipment.
+        - tracking_number: A char field used to store the unique identification number provided by the carrier. Customers can use these numbers to track their packages in real time, leading to greater customer satisfaction and less scope for confusion about a package's location at any given time.
+        - carrier: A char field containing the name or other identifier of the carrier performing the delivery, enabling a clear line of responsibility and contact for each shipped package.
+    """
     shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.SET_NULL, null=True, blank=True)
     customer_order = models.ForeignKey(
         CustomerOrder, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -172,6 +309,14 @@ class ShipmentDetail(models.Model):
 
 
 class StockAdjustment(models.Model):
+    """
+    @Description: The StockAdjustment model enables the tracking of modifications to product stock quantities.
+    @Fields:
+        - product: A foreign key field linking to an instance of the Product model.
+        - adjustment_reason: A char field describing the motive behind the adjustment.
+        - adjustment_date: A datetime field recording when the adjustment happened.
+        - adjustment_value: An integer field indicating the amount adjusted.
+    """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     adjustment_date = models.DateField()
@@ -180,6 +325,14 @@ class StockAdjustment(models.Model):
 
 
 class InventoryTransaction(models.Model):
+    """
+    @Description: The InventoryTransaction model traces all transactions taking place in inventory, ensuring accountability and control over inventory items.
+    @Fields: 
+        - product: A foreign key field linking to an instance of the Product model.
+        - transaction_type: A char field capturing the type of transaction, be it inbound, outbound or transfer between warehouses.
+        - transaction_date: A datetime field recording when the transaction took place.
+        - transaction_quantity: An integer field indicating the number of items included in the transaction.
+    """
     TRANSACTION_TYPE_CHOICES = [
         ("IN", "IN"),
         ("OUT", "OUT"),
@@ -187,5 +340,6 @@ class InventoryTransaction(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    transaction_type = models.CharField(max_length=50, choices=TRANSACTION_TYPE_CHOICES)
+    transaction_type = models.CharField(
+        max_length=50, choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateTimeField(default=timezone.now)
