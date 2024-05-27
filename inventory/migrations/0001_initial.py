@@ -34,11 +34,18 @@ class Migration(migrations.Migration):
                     models.CharField(blank=True, max_length=255, null=True),
                 ),
                 ("address", models.TextField(blank=True, null=True)),
-                ("city", models.CharField(blank=True, max_length=100, null=True)),
-                ("postal_code", models.CharField(blank=True, max_length=20, null=True)),
-                ("country", models.CharField(blank=True, max_length=100, null=True)),
-                ("phone", models.CharField(blank=True, max_length=50, null=True)),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("city", models.CharField(blank=True,
+                                          max_length=100,
+                                          null=True)),
+                ("postal_code",
+                 models.CharField(blank=True, max_length=20, null=True)),
+                ("country",
+                 models.CharField(blank=True, max_length=100, null=True)),
+                ("phone", models.CharField(blank=True,
+                                           max_length=50,
+                                           null=True)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
@@ -66,7 +73,8 @@ class Migration(migrations.Migration):
                         max_length=50,
                     ),
                 ),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
@@ -83,10 +91,13 @@ class Migration(migrations.Migration):
                 ),
                 ("product_name", models.CharField(max_length=255)),
                 ("description", models.TextField(blank=True, null=True)),
-                ("category", models.CharField(blank=True, max_length=255, null=True)),
-                ("unit_price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("category",
+                 models.CharField(blank=True, max_length=255, null=True)),
+                ("unit_price",
+                 models.DecimalField(decimal_places=2, max_digits=10)),
                 ("reorder_level", models.IntegerField(default=0)),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
@@ -102,7 +113,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("shipment_date", models.DateField()),
-                ("carrier", models.CharField(blank=True, max_length=255, null=True)),
+                ("carrier",
+                 models.CharField(blank=True, max_length=255, null=True)),
                 (
                     "tracking_number",
                     models.CharField(blank=True, max_length=255, null=True),
@@ -119,7 +131,8 @@ class Migration(migrations.Migration):
                         max_length=50,
                     ),
                 ),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
@@ -140,11 +153,18 @@ class Migration(migrations.Migration):
                     models.CharField(blank=True, max_length=255, null=True),
                 ),
                 ("address", models.TextField(blank=True, null=True)),
-                ("city", models.CharField(blank=True, max_length=100, null=True)),
-                ("postal_code", models.CharField(blank=True, max_length=20, null=True)),
-                ("country", models.CharField(blank=True, max_length=100, null=True)),
-                ("phone", models.CharField(blank=True, max_length=50, null=True)),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("city", models.CharField(blank=True,
+                                          max_length=100,
+                                          null=True)),
+                ("postal_code",
+                 models.CharField(blank=True, max_length=20, null=True)),
+                ("country",
+                 models.CharField(blank=True, max_length=100, null=True)),
+                ("phone", models.CharField(blank=True,
+                                           max_length=50,
+                                           null=True)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
@@ -161,7 +181,8 @@ class Migration(migrations.Migration):
                 ),
                 ("warehouse_name", models.CharField(max_length=255)),
                 ("location", models.CharField(max_length=255)),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
@@ -189,7 +210,8 @@ class Migration(migrations.Migration):
                         max_length=50,
                     ),
                 ),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("created_at",
+                 models.DateTimeField(default=django.utils.timezone.now)),
                 (
                     "customer",
                     models.ForeignKey(
@@ -212,7 +234,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("quantity", models.IntegerField()),
-                ("unit_price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("unit_price",
+                 models.DecimalField(decimal_places=2, max_digits=10)),
                 (
                     "order",
                     models.ForeignKey(
@@ -242,7 +265,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("quantity", models.IntegerField()),
-                ("unit_price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("unit_price",
+                 models.DecimalField(decimal_places=2, max_digits=10)),
                 (
                     "customer_order",
                     models.ForeignKey(
@@ -328,18 +352,20 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                ("password",
+                 models.CharField(max_length=128, verbose_name="password")),
                 (
                     "last_login",
-                    models.DateTimeField(
-                        blank=True, null=True, verbose_name="last login"
-                    ),
+                    models.DateTimeField(blank=True,
+                                         null=True,
+                                         verbose_name="last login"),
                 ),
                 (
                     "is_superuser",
                     models.BooleanField(
                         default=False,
-                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        help_text=
+                        "Designates that this user has all permissions without explicitly assigning them.",
                         verbose_name="superuser status",
                     ),
                 ),
@@ -347,40 +373,44 @@ class Migration(migrations.Migration):
                     "username",
                     models.CharField(
                         error_messages={
-                            "unique": "A user with that username already exists."
+                            "unique":
+                            "A user with that username already exists."
                         },
-                        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+                        help_text=
+                        "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
                         max_length=150,
                         unique=True,
                         validators=[
-                            django.contrib.auth.validators.UnicodeUsernameValidator()
+                            django.contrib.auth.validators.
+                            UnicodeUsernameValidator()
                         ],
                         verbose_name="username",
                     ),
                 ),
                 (
                     "first_name",
-                    models.CharField(
-                        blank=True, max_length=150, verbose_name="first name"
-                    ),
+                    models.CharField(blank=True,
+                                     max_length=150,
+                                     verbose_name="first name"),
                 ),
                 (
                     "last_name",
-                    models.CharField(
-                        blank=True, max_length=150, verbose_name="last name"
-                    ),
+                    models.CharField(blank=True,
+                                     max_length=150,
+                                     verbose_name="last name"),
                 ),
                 (
                     "email",
-                    models.EmailField(
-                        blank=True, max_length=254, verbose_name="email address"
-                    ),
+                    models.EmailField(blank=True,
+                                      max_length=254,
+                                      verbose_name="email address"),
                 ),
                 (
                     "is_staff",
                     models.BooleanField(
                         default=False,
-                        help_text="Designates whether the user can log into this admin site.",
+                        help_text=
+                        "Designates whether the user can log into this admin site.",
                         verbose_name="staff status",
                     ),
                 ),
@@ -388,15 +418,15 @@ class Migration(migrations.Migration):
                     "is_active",
                     models.BooleanField(
                         default=True,
-                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                        help_text=
+                        "Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
                         verbose_name="active",
                     ),
                 ),
                 (
                     "date_joined",
-                    models.DateTimeField(
-                        default=django.utils.timezone.now, verbose_name="date joined"
-                    ),
+                    models.DateTimeField(default=django.utils.timezone.now,
+                                         verbose_name="date joined"),
                 ),
                 (
                     "role",
@@ -460,7 +490,8 @@ class Migration(migrations.Migration):
                 ),
                 ("adjustment_date", models.DateField()),
                 ("quantity", models.IntegerField()),
-                ("reason", models.CharField(blank=True, max_length=255, null=True)),
+                ("reason",
+                 models.CharField(blank=True, max_length=255, null=True)),
                 (
                     "product",
                     models.ForeignKey(
@@ -492,9 +523,8 @@ class Migration(migrations.Migration):
                 ("quantity", models.IntegerField()),
                 (
                     "transaction_type",
-                    models.CharField(
-                        choices=[("IN", "IN"), ("OUT", "OUT")], max_length=50
-                    ),
+                    models.CharField(choices=[("IN", "IN"), ("OUT", "OUT")],
+                                     max_length=50),
                 ),
                 (
                     "transaction_date",

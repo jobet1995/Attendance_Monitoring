@@ -430,8 +430,29 @@ def create_task_for_new_order(sender, instance, created, **kwargs):
         if admin_user:
             Task.objects.create(
                 title=f"New Order #{instance.id} placed",
-                description=f"A new order has been placed with {
-                    instance.supplier.supplier_name}.",
+                description="A new order has been placed with.",
                 due_date=timezone.now() + timezone.timedelta(days=1),
                 assigned_to=admin_user
+            )
+
+
+@receiver(post_save, sender=Order)
+def create_order_details(sender, instance, created, **kwargs):
+    """
+    @Description: Signal handler to create order details when an order is confirmed.
+    @Parameters:
+        sender (Model): The model class that sent the signal.
+        instance (Order): The instance of the Order model being saved.
+        created (bool): Indicates whether the instance was created or updated.
+        kwargs (dict): Additional keyword arguments.
+    @Returns:
+        None
+    """
+    if not created and instance.status == 'Confirmed':
+        for item in instance.items.all():
+            OrderDetail.objects.create(
+                order=instance,
+                product=item.product,
+                quantity=item.quantity,
+                customer=instance.customer
             )

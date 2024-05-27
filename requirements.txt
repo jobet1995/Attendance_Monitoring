@@ -4,3 +4,5 @@ markdown
 django-filter
 pylint
 selenium
+pytest
+robotframework
