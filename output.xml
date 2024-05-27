@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.12.2 on linux)" generated="2024-05-27T14:54:52.470663" rpa="false" schemaversion="5">
+<suite id="s1" name="Tests" source="/project/workspace/tests.robot">
+<test id="s1-t1" name="Create Product" line="14">
+<kw name="Create Session">
+<msg time="2024-05-27T14:54:52.494461" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<arg>inventory</arg>
+<arg>${BASE_URL}</arg>
+<status status="FAIL" start="2024-05-27T14:54:52.494406" elapsed="0.000133">No keyword with name 'Create Session' found.</status>
+</kw>
+<kw name="Get Csrf Token">
+<var>${csrf_token}</var>
+<status status="NOT RUN" start="2024-05-27T14:54:52.494939" elapsed="0.000038"/>
+</kw>
+<kw name="Create Product">
+<var>${product_id}</var>
+<arg>${PRODUCT_NAME}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.495179" elapsed="0.000023"/>
+</kw>
+<kw name="Delete Product" type="TEARDOWN">
+<msg time="2024-05-27T14:54:52.496231" level="FAIL">Variable '${product_id}' not found.</msg>
+<arg>${product_id}</arg>
+<status status="FAIL" start="2024-05-27T14:54:52.495452" elapsed="0.000806">Variable '${product_id}' not found.</status>
+</kw>
+<doc>Create a new product</doc>
+<tag>CRUD</tag>
+<status status="FAIL" start="2024-05-27T14:54:52.493056" elapsed="0.003293">No keyword with name 'Create Session' found.
+
+Also teardown failed:
+Variable '${product_id}' not found.</status>
+</test>
+<test id="s1-t2" name="Read Product" line="22">
+<kw name="Create Product">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-27T14:54:52.497463" level="INFO">${data} = {'product_name': 'Test Product'}</msg>
+<var>${data}</var>
+<arg>product_name=${product_name}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-27T14:54:52.497160" elapsed="0.000324"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-27T14:54:52.498426" level="FAIL">Variable '${csrf_token}' not found.</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>X-CSRFToken=${csrf_token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="FAIL" start="2024-05-27T14:54:52.497588" elapsed="0.000874">Variable '${csrf_token}' not found.</status>
+</kw>
+<kw name="Post Request">
+<var>${response}</var>
+<arg>${BASE_URL}/api/products/</arg>
+<arg>json=${data}</arg>
+<arg>headers=${headers}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.499298" elapsed="0.000019"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${product_id}</var>
+<arg>${response.json()['id']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.499403" elapsed="0.000015"/>
+</kw>
+<return>
+<value>${product_id}</value>
+<status status="NOT RUN" start="2024-05-27T14:54:52.499461" elapsed="0.000020"/>
+</return>
+<var>${product_id}</var>
+<arg>${PRODUCT_NAME}</arg>
+<status status="FAIL" start="2024-05-27T14:54:52.496879" elapsed="0.002705">Variable '${csrf_token}' not found.</status>
+</kw>
+<kw name="Get Product Details">
+<var>${product_details}</var>
+<arg>${product_id}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.499850" elapsed="0.000018"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${product_details['product_name']}</arg>
+<arg>${PRODUCT_NAME}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.499976" elapsed="0.000016"/>
+</kw>
+<doc>Read the created product</doc>
+<tag>CRUD</tag>
+<status status="FAIL" start="2024-05-27T14:54:52.496573" elapsed="0.003567">Variable '${csrf_token}' not found.</status>
+</test>
+<test id="s1-t3" name="Update Product" line="29">
+<kw name="Create Product">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-27T14:54:52.501388" level="INFO">${data} = {'product_name': 'Test Product'}</msg>
+<var>${data}</var>
+<arg>product_name=${product_name}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-27T14:54:52.501186" elapsed="0.000223"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-27T14:54:52.502231" level="FAIL">Variable '${csrf_token}' not found.</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>X-CSRFToken=${csrf_token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="FAIL" start="2024-05-27T14:54:52.501507" elapsed="0.000761">Variable '${csrf_token}' not found.</status>
+</kw>
+<kw name="Post Request">
+<var>${response}</var>
+<arg>${BASE_URL}/api/products/</arg>
+<arg>json=${data}</arg>
+<arg>headers=${headers}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.503003" elapsed="0.000020"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${product_id}</var>
+<arg>${response.json()['id']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.503106" elapsed="0.000014"/>
+</kw>
+<return>
+<value>${product_id}</value>
+<status status="NOT RUN" start="2024-05-27T14:54:52.503160" elapsed="0.000019"/>
+</return>
+<var>${product_id}</var>
+<arg>${PRODUCT_NAME}</arg>
+<status status="FAIL" start="2024-05-27T14:54:52.500940" elapsed="0.002326">Variable '${csrf_token}' not found.</status>
+</kw>
+<kw name="Update Product Details">
+<arg>${product_id}</arg>
+<arg>New Product Name</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.503460" elapsed="0.000017"/>
+</kw>
+<kw name="Get Product Details">
+<var>${updated_product_details}</var>
+<arg>${product_id}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.503602" elapsed="0.000014"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${updated_product_details['product_name']}</arg>
+<arg>New Product Name</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.503779" elapsed="0.000016"/>
+</kw>
+<doc>Update the created product</doc>
+<tag>CRUD</tag>
+<status status="FAIL" start="2024-05-27T14:54:52.500330" elapsed="0.003611">Variable '${csrf_token}' not found.</status>
+</test>
+<test id="s1-t4" name="Delete Product" line="37">
+<kw name="Create Product">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-27T14:54:52.505061" level="INFO">${data} = {'product_name': 'Test Product'}</msg>
+<var>${data}</var>
+<arg>product_name=${product_name}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-27T14:54:52.504812" elapsed="0.000276"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-27T14:54:52.505976" level="FAIL">Variable '${csrf_token}' not found.</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>X-CSRFToken=${csrf_token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="FAIL" start="2024-05-27T14:54:52.505188" elapsed="0.000816">Variable '${csrf_token}' not found.</status>
+</kw>
+<kw name="Post Request">
+<var>${response}</var>
+<arg>${BASE_URL}/api/products/</arg>
+<arg>json=${data}</arg>
+<arg>headers=${headers}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.506857" elapsed="0.000018"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${product_id}</var>
+<arg>${response.json()['id']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.506956" elapsed="0.000014"/>
+</kw>
+<return>
+<value>${product_id}</value>
+<status status="NOT RUN" start="2024-05-27T14:54:52.507008" elapsed="0.000017"/>
+</return>
+<var>${product_id}</var>
+<arg>${PRODUCT_NAME}</arg>
+<status status="FAIL" start="2024-05-27T14:54:52.504509" elapsed="0.002595">Variable '${csrf_token}' not found.</status>
+</kw>
+<kw name="Delete Product">
+<arg>${product_id}</arg>
+<status status="NOT RUN" start="2024-05-27T14:54:52.507317" elapsed="0.000021"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<var>${product_details}</var>
+<arg>Get Product Details</arg>
+<arg>${product_id}</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.507468" elapsed="0.000015"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${product_details['detail']}</arg>
+<arg>Not found.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2024-05-27T14:54:52.507717" elapsed="0.000026"/>
+</kw>
+<doc>Delete the created product</doc>
+<tag>CRUD</tag>
+<status status="FAIL" start="2024-05-27T14:54:52.504123" elapsed="0.003763">Variable '${csrf_token}' not found.</status>
+</test>
+<status status="FAIL" start="2024-05-27T14:54:52.471857" elapsed="0.036411"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="4" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="4" skip="0">CRUD</stat>
+</tag>
+<suite>
+<stat pass="0" fail="4" skip="0" id="s1" name="Tests">Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2024-05-27T14:54:52.460015" level="WARN">Error in file '/project/workspace/tests.robot' on line 49: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2024-05-27T14:54:52.460263" level="WARN">Error in file '/project/workspace/tests.robot' on line 57: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2024-05-27T14:54:52.460389" level="WARN">Error in file '/project/workspace/tests.robot' on line 62: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2024-05-27T14:54:52.491823" level="ERROR">Error in file '/project/workspace/tests.robot' on line 2: Importing library 'SeleniumLibrary' failed: ModuleNotFoundError: No module named 'SeleniumLibrary'
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  /usr/local/bin
+  /usr/local/lib/python312.zip
+  /usr/local/lib/python3.12
+  /usr/local/lib/python3.12/lib-dynload
+  /usr/local/lib/python3.12/site-packages</msg>
+<msg time="2024-05-27T14:54:52.492420" level="ERROR">Error in file '/project/workspace/tests.robot' on line 3: Importing library 'RequestsLibrary' failed: ModuleNotFoundError: No module named 'RequestsLibrary'
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  /usr/local/bin
+  /usr/local/lib/python312.zip
+  /usr/local/lib/python3.12
+  /usr/local/lib/python3.12/lib-dynload
+  /usr/local/lib/python3.12/site-packages</msg>
+</errors>
+</robot>
