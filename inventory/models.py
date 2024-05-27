@@ -430,8 +430,7 @@ def create_task_for_new_order(sender, instance, created, **kwargs):
         if admin_user:
             Task.objects.create(
                 title=f"New Order #{instance.id} placed",
-                description=f"A new order has been placed with {
-                    instance.supplier.supplier_name}.",
+                description="A new order has been placed with.",
                 due_date=timezone.now() + timezone.timedelta(days=1),
                 assigned_to=admin_user
             )
