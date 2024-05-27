@@ -27,7 +27,7 @@ from .models import (
     StockAdjustment,
     InventoryTransaction,
     Task,
-    Event
+    Event,
 )
 
 
@@ -437,8 +437,7 @@ class StockAdjustmentForm(forms.ModelForm):
 
     class Meta:
         model = StockAdjustment
-        fields = ["product", "warehouse",
-                  "adjustment_date", "quantity", "reason"]
+        fields = ["product", "warehouse", "adjustment_date", "quantity", "reason"]
         widgets = {
             "product": forms.Select(attrs={"class": "form-control"}),
             "warehouse": forms.Select(attrs={"class": "form-control"}),
@@ -497,16 +496,18 @@ class TaskForm(forms.ModelForm):
         - completed (BooleanField): A boolean indicating whether the task has been completed.
         - assigned_to (ForeignKey): A foreign key linking to the User model to indicate who the task is assigned to.
     """
+
     class Meta:
         model = Task
-        fields = ['title', 'description',
-                  'due_date', 'completed', 'assigned_to']
+        fields = ["title", "description", "due_date", "completed", "assigned_to"]
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'due_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'completed': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'assigned_to': forms.Select(attrs={'class': 'form-control'}),
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "due_date": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "completed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "assigned_to": forms.Select(attrs={"class": "form-control"}),
         }
 
 
@@ -521,15 +522,26 @@ class EventForm(forms.ModelForm):
         - location (CharField): The location where the event will take place.
         - participants (ManyToManyField): A many-to-many relationship with the User model indicating who will participate in the event.
     """
+
     class Meta:
         model = Event
-        fields = ['name', 'description', 'start_time',
-                  'end_time', 'location', 'participants']
+        fields = [
+            "name",
+            "description",
+            "start_time",
+            "end_time",
+            "location",
+            "participants",
+        ]
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'start_time': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            'end_time': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            'location': forms.TextInput(attrs={'class': 'form-control'}),
-            'participants': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "start_time": forms.DateTimeInput(
+                attrs={"class": "form-control", "type": "datetime-local"}
+            ),
+            "end_time": forms.DateTimeInput(
+                attrs={"class": "form-control", "type": "datetime-local"}
+            ),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+            "participants": forms.SelectMultiple(attrs={"class": "form-control"}),
         }

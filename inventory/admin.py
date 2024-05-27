@@ -26,7 +26,7 @@ from .models import (
     StockAdjustment,
     InventoryTransaction,
     Task,
-    Event
+    Event,
 )
 
 admin.site.register(User)
@@ -48,14 +48,14 @@ admin.site.register(InventoryTransaction)
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'due_date', 'completed', 'assigned_to')
-    search_fields = ('title', 'description')
-    list_filter = ('completed', 'due_date', 'assigned_to')
+    list_display = ("title", "due_date", "completed", "assigned_to")
+    search_fields = ("title", "description")
+    list_filter = ("completed", "due_date", "assigned_to")
 
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('name', 'start_time', 'end_time', 'location')
-    search_fields = ('name', 'description', 'location')
-    list_filter = ('start_time', 'end_time')
-    filter_horizontal = ('participants',)
+    list_display = ("name", "start_time", "end_time", "location")
+    search_fields = ("name", "description", "location")
+    list_filter = ("start_time", "end_time")
+    filter_horizontal = ("participants",)
