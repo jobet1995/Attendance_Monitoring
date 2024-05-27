@@ -9,6 +9,7 @@ Version     Author           Date                Logs
 """
 
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from .models import (
     User,
     Product,
@@ -25,7 +26,11 @@ from .models import (
     ShipmentDetail,
     StockAdjustment,
     InventoryTransaction,
+    Task,
+    Event
 )
+
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -351,7 +356,8 @@ class ShipmentSerializer(serializers.ModelSerializer):
         """
 
         model = Shipment
-        fields = ["id", "shipment_date", "carrier", "tracking_number", "status"]
+        fields = ["id", "shipment_date",
+                  "carrier", "tracking_number", "status"]
 
 
 class ShipmentDetailSerializer(serializers.ModelSerializer):
@@ -377,7 +383,8 @@ class ShipmentDetailSerializer(serializers.ModelSerializer):
         """
 
         model = ShipmentDetail
-        fields = ["id", "shipment", "order", "customer_order", "product", "quantity"]
+        fields = ["id", "shipment", "order",
+                  "customer_order", "product", "quantity"]
 
 
 class StockAdjustmentSerializer(serializers.ModelSerializer):
@@ -403,7 +410,8 @@ class StockAdjustmentSerializer(serializers.ModelSerializer):
         """
 
         model = StockAdjustment
-        fields = ["id", "product", "warehouse", "adjustment_date", "quantity", "reason"]
+        fields = ["id", "product", "warehouse",
+                  "adjustment_date", "quantity", "reason"]
 
 
 class InventoryTransactionSerializer(serializers.ModelSerializer):
@@ -417,3 +425,44 @@ class InventoryTransactionSerializer(serializers.ModelSerializer):
             "transaction_type",
             "transaction_date",
         ]
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    """
+    @Description: Serializer for the Task model.
+    @Attributes:
+        - id (IntegerField): The unique identifier for the task.
+        - title (CharField): The title of the task.
+        - description (CharField): A detailed description of the task.
+        - due_date (DateField): The date by which the task should be completed.
+        - completed (BooleanField): A boolean indicating whether the task has been completed.
+        - assigned_to (PrimaryKeyRelatedField): A foreign key linking to the User model to indicate who the task is assigned to.
+    """
+    assigned_to = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all())
+
+    class Meta:
+        model = Task
+        fields = ['id', 'title', 'description',
+                  'due_date', 'completed', 'assigned_to']
+
+
+class EventSerializer(serializers.ModelSerializer):
+    """
+    @Description: Serializer for the Event model.
+    @Attributes:
+        - id (IntegerField): The unique identifier for the event.
+        - name (CharField): The name of the event.
+        - description (CharField): A detailed description of the event.
+        - start_time (DateTimeField): The start time of the event.
+        - end_time (DateTimeField): The end time of the event.
+        - location (CharField): The location where the event will take place.
+        - participants (PrimaryKeyRelatedField): A many-to-many relationship with the User model indicating who will participate in the event.
+    """
+    participants = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=User.objects.all())
+
+    class Meta:
+        model = Event
+        fields = ['id', 'name', 'description', 'start_time',
+                  'end_time', 'location', 'participants']

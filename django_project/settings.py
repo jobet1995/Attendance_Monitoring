@@ -30,12 +30,15 @@ ALLOWED_HOSTS = [
     ".replit.app",
     "fgxp72-8000.csb.app",
     "j5qd9d-8000.csb.app",
+    "127.0.0.1:8000",
+    "vkwyql-8000.csb.app"
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://*.replit.dev",
     "https://*.replit.app",
     "https://fgxp72-8000.csb.app",
     "https://j5qd9d-8000.csb.app",
+    "https://vkwyql-8000.csb.app"
 ]
 
 # Application definition
