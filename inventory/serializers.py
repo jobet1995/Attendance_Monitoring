@@ -27,7 +27,7 @@ from .models import (
     StockAdjustment,
     InventoryTransaction,
     Task,
-    Event
+    Event,
 )
 
 User = get_user_model()
@@ -356,8 +356,7 @@ class ShipmentSerializer(serializers.ModelSerializer):
         """
 
         model = Shipment
-        fields = ["id", "shipment_date",
-                  "carrier", "tracking_number", "status"]
+        fields = ["id", "shipment_date", "carrier", "tracking_number", "status"]
 
 
 class ShipmentDetailSerializer(serializers.ModelSerializer):
@@ -383,8 +382,7 @@ class ShipmentDetailSerializer(serializers.ModelSerializer):
         """
 
         model = ShipmentDetail
-        fields = ["id", "shipment", "order",
-                  "customer_order", "product", "quantity"]
+        fields = ["id", "shipment", "order", "customer_order", "product", "quantity"]
 
 
 class StockAdjustmentSerializer(serializers.ModelSerializer):
@@ -410,8 +408,7 @@ class StockAdjustmentSerializer(serializers.ModelSerializer):
         """
 
         model = StockAdjustment
-        fields = ["id", "product", "warehouse",
-                  "adjustment_date", "quantity", "reason"]
+        fields = ["id", "product", "warehouse", "adjustment_date", "quantity", "reason"]
 
 
 class InventoryTransactionSerializer(serializers.ModelSerializer):
@@ -438,13 +435,12 @@ class TaskSerializer(serializers.ModelSerializer):
         - completed (BooleanField): A boolean indicating whether the task has been completed.
         - assigned_to (PrimaryKeyRelatedField): A foreign key linking to the User model to indicate who the task is assigned to.
     """
-    assigned_to = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all())
+
+    assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'description',
-                  'due_date', 'completed', 'assigned_to']
+        fields = ["id", "title", "description", "due_date", "completed", "assigned_to"]
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -459,10 +455,19 @@ class EventSerializer(serializers.ModelSerializer):
         - location (CharField): The location where the event will take place.
         - participants (PrimaryKeyRelatedField): A many-to-many relationship with the User model indicating who will participate in the event.
     """
+
     participants = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=User.objects.all())
+        many=True, queryset=User.objects.all()
+    )
 
     class Meta:
         model = Event
-        fields = ['id', 'name', 'description', 'start_time',
-                  'end_time', 'location', 'participants']
+        fields = [
+            "id",
+            "name",
+            "description",
+            "start_time",
+            "end_time",
+            "location",
+            "participants",
+        ]
