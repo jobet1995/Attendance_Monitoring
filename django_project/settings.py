@@ -32,7 +32,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1:8000",
     "vkwyql-8000.csb.app",
     "zyz6zv-8000.csb.app",
-    "zyz6zv-3000.csb.app"
+    "zyz6zv-3000.csb.app",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://*.replit.dev",
