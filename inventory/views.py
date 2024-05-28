@@ -79,24 +79,18 @@ def user_login(request):
         On GET: Renders the login page with an empty form.
         On POST: Authenticates the user and logs them in or shows error messages.
     """
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("Home")
-            else:
-                return render(
-                    request,
-                    "login.html",
-                    {"form": form, "error": "Invalid username or password"},
-                )
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password'] = authenticate(
+            request, username=username, password=password)
+
+        if not None:
+            login(request)
+            return redirect('home')
         else:
-            form = LoginForm()
-        return render(request, "login.html", {"form": form})
+            return render(request, 'login.html', {'error': 'Invalid username or password'})
+    else:
+        return render(request, 'login.html')
 
 
 @login_required
