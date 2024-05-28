@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.0 (Python 3.12.2 on linux)" generated="2024-05-28T11:19:13.587940" rpa="false" schemaversion="5">
+<robot generator="Robot 7.0 (Python 3.12.2 on linux)" generated="2024-05-28T14:42:57.922502" rpa="false" schemaversion="5">
 <suite id="s1" name="Tests" source="/project/workspace/tests.robot">
 <test id="s1-t1" name="Create Product" line="13">
 <kw name="Get Csrf Token">
 <return>
 <value>${csrf_token}</value>
-<status status="PASS" start="2024-05-28T11:19:13.617881" elapsed="0.000068"/>
+<status status="PASS" start="2024-05-28T14:42:57.954846" elapsed="0.000058"/>
 </return>
-<msg time="2024-05-28T11:19:13.618881" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
+<msg time="2024-05-28T14:42:57.956083" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
 <var>${csrf_token}</var>
-<status status="FAIL" start="2024-05-28T11:19:13.617577" elapsed="0.001366">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.954588" elapsed="0.001550">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </kw>
 <kw name="Create Product">
 <var>${product_id}</var>
 <arg>${PRODUCT_NAME}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.619301" elapsed="0.000032"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.956422" elapsed="0.000029"/>
 </kw>
 <kw name="Delete Product" type="TEARDOWN">
-<msg time="2024-05-28T11:19:13.620408" level="FAIL">Variable '${product_id}' not found.</msg>
+<msg time="2024-05-28T14:42:57.957639" level="FAIL">Variable '${product_id}' not found.</msg>
 <arg>${product_id}</arg>
 <arg>${csrf_token}</arg>
-<status status="FAIL" start="2024-05-28T11:19:13.619653" elapsed="0.000784">Variable '${product_id}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.956757" elapsed="0.000917">Variable '${product_id}' not found.</status>
 </kw>
 <doc>Create a new product</doc>
 <tag>CRUD</tag>
-<status status="FAIL" start="2024-05-28T11:19:13.616857" elapsed="0.003672">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.
+<status status="FAIL" start="2024-05-28T14:42:57.953959" elapsed="0.003827">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.
 
 Also teardown failed:
 Variable '${product_id}' not found.</status>
@@ -34,92 +34,92 @@ Variable '${product_id}' not found.</status>
 <kw name="Get Csrf Token">
 <return>
 <value>${csrf_token}</value>
-<status status="PASS" start="2024-05-28T11:19:13.621414" elapsed="0.000037"/>
+<status status="PASS" start="2024-05-28T14:42:57.958618" elapsed="0.000041"/>
 </return>
-<msg time="2024-05-28T11:19:13.622070" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
+<msg time="2024-05-28T14:42:57.959448" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
 <var>${csrf_token}</var>
-<status status="FAIL" start="2024-05-28T11:19:13.621244" elapsed="0.000859">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.958428" elapsed="0.001068">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </kw>
 <kw name="Create Product">
 <var>${product_id}</var>
 <arg>${PRODUCT_NAME}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.622302" elapsed="0.000020"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.959779" elapsed="0.000029"/>
 </kw>
 <kw name="Get Product Details">
 <var>${product_details}</var>
 <arg>${product_id}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.622454" elapsed="0.000016"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.959990" elapsed="0.000021"/>
 </kw>
 <kw name="Should Be Equal" owner="BuiltIn">
 <arg>${product_details['product_name']}</arg>
 <arg>${PRODUCT_NAME}</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" start="2024-05-28T11:19:13.622768" elapsed="0.000026"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.960440" elapsed="0.000026"/>
 </kw>
 <doc>Read the created product</doc>
 <tag>CRUD</tag>
-<status status="FAIL" start="2024-05-28T11:19:13.620818" elapsed="0.002162">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.958056" elapsed="0.002595">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </test>
 <test id="s1-t3" name="Update Product" line="28">
 <kw name="Get Csrf Token">
 <return>
 <value>${csrf_token}</value>
-<status status="PASS" start="2024-05-28T11:19:13.623845" elapsed="0.000068"/>
+<status status="PASS" start="2024-05-28T14:42:57.961619" elapsed="0.000032"/>
 </return>
-<msg time="2024-05-28T11:19:13.624467" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
+<msg time="2024-05-28T14:42:57.962355" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
 <var>${csrf_token}</var>
-<status status="FAIL" start="2024-05-28T11:19:13.623473" elapsed="0.001025">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.961217" elapsed="0.001171">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </kw>
 <kw name="Create Product">
 <var>${product_id}</var>
 <arg>${PRODUCT_NAME}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.624677" elapsed="0.000019"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.962582" elapsed="0.000021"/>
 </kw>
 <kw name="Update Product Details">
 <arg>${product_id}</arg>
 <arg>New Product Name</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.624824" elapsed="0.000016"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.962768" elapsed="0.000018"/>
 </kw>
 <kw name="Get Product Details">
 <var>${updated_product_details}</var>
 <arg>${product_id}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.624959" elapsed="0.000015"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.962953" elapsed="0.000019"/>
 </kw>
 <kw name="Should Be Equal" owner="BuiltIn">
 <arg>${updated_product_details['product_name']}</arg>
 <arg>New Product Name</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" start="2024-05-28T11:19:13.625121" elapsed="0.000021"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.963127" elapsed="0.000020"/>
 </kw>
 <doc>Update the created product</doc>
 <tag>CRUD</tag>
-<status status="FAIL" start="2024-05-28T11:19:13.623183" elapsed="0.002101">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.960883" elapsed="0.002433">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </test>
 <test id="s1-t4" name="Delete Product" line="37">
 <kw name="Get Csrf Token">
 <return>
 <value>${csrf_token}</value>
-<status status="PASS" start="2024-05-28T11:19:13.625878" elapsed="0.000026"/>
+<status status="PASS" start="2024-05-28T14:42:57.963997" elapsed="0.000025"/>
 </return>
-<msg time="2024-05-28T11:19:13.626461" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
+<msg time="2024-05-28T14:42:57.964662" level="FAIL">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</msg>
 <var>${csrf_token}</var>
-<status status="FAIL" start="2024-05-28T11:19:13.625736" elapsed="0.000756">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.963867" elapsed="0.000842">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </kw>
 <kw name="Create Product">
 <var>${product_id}</var>
 <arg>${PRODUCT_NAME}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.626660" elapsed="0.000018"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.964954" elapsed="0.000027"/>
 </kw>
 <kw name="Delete Product">
 <arg>${product_id}</arg>
 <arg>${csrf_token}</arg>
-<status status="NOT RUN" start="2024-05-28T11:19:13.626800" elapsed="0.000015"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.965174" elapsed="0.000025"/>
 </kw>
 <kw name="Run Keyword And Ignore Error" owner="BuiltIn">
 <var>${product_details}</var>
@@ -127,19 +127,19 @@ Variable '${product_id}' not found.</status>
 <arg>${product_id}</arg>
 <arg>${csrf_token}</arg>
 <doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
-<status status="NOT RUN" start="2024-05-28T11:19:13.626933" elapsed="0.000017"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.965384" elapsed="0.000025"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
 <arg>${product_details['detail']}</arg>
 <arg>Not found.</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="NOT RUN" start="2024-05-28T11:19:13.627058" elapsed="0.000015"/>
+<status status="NOT RUN" start="2024-05-28T14:42:57.965585" elapsed="0.000025"/>
 </kw>
 <doc>Delete the created product</doc>
 <tag>CRUD</tag>
-<status status="FAIL" start="2024-05-28T11:19:13.625455" elapsed="0.001745">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
+<status status="FAIL" start="2024-05-28T14:42:57.963556" elapsed="0.002227">Replacing variables from keyword return value failed: Variable '${csrf_token}' not found.</status>
 </test>
-<status status="FAIL" start="2024-05-28T11:19:13.588880" elapsed="0.038722"/>
+<status status="FAIL" start="2024-05-28T14:42:57.926374" elapsed="0.039893"/>
 </suite>
 <statistics>
 <total>
@@ -153,10 +153,10 @@ Variable '${product_id}' not found.</status>
 </suite>
 </statistics>
 <errors>
-<msg time="2024-05-28T11:19:13.584173" level="WARN">Error in file '/project/workspace/tests.robot' on line 48: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
-<msg time="2024-05-28T11:19:13.584511" level="WARN">Error in file '/project/workspace/tests.robot' on line 56: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
-<msg time="2024-05-28T11:19:13.584668" level="WARN">Error in file '/project/workspace/tests.robot' on line 61: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
-<msg time="2024-05-28T11:19:13.616276" level="ERROR">Error in file '/project/workspace/tests.robot' on line 2: Importing library 'RequestsLibrary' failed: ModuleNotFoundError: No module named 'RequestsLibrary'
+<msg time="2024-05-28T14:42:57.912807" level="WARN">Error in file '/project/workspace/tests.robot' on line 48: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2024-05-28T14:42:57.913061" level="WARN">Error in file '/project/workspace/tests.robot' on line 56: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2024-05-28T14:42:57.913191" level="WARN">Error in file '/project/workspace/tests.robot' on line 61: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2024-05-28T14:42:57.953354" level="ERROR">Error in file '/project/workspace/tests.robot' on line 2: Importing library 'RequestsLibrary' failed: ModuleNotFoundError: No module named 'RequestsLibrary'
 Traceback (most recent call last):
   None
 PYTHONPATH:
