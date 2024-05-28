@@ -10,6 +10,7 @@ Version     Author           Date                Logs
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
 from .forms import (
@@ -30,7 +31,7 @@ from .forms import (
     TaskForm,
     EventForm,
     LoginForm,
-    UserForm
+    UserForm,
 )
 from .models import (
     Product,
@@ -55,18 +56,18 @@ from .models import (
 def register(request):
     """
     @Description: View function for user registration
-    @Attributes: 
+    @Attributes:
         form (LoginForm): A form for Login users
     @Return:
         On POST: saves the user
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
-            return redirect('login')
+            return redirect("login")
     else:
         form = UserForm()
-    return render(request, 'registration.html', {'form': form})
+    return render(request, "registration.html", {"form": form})
 
 
 def user_login(request):
@@ -78,21 +79,24 @@ def user_login(request):
         On GET: Renders the login page with an empty form.
         On POST: Authenticates the user and logs them in or shows error messages.
     """
-    if request.method == 'POST':
-        form = LoginForm(request.POST):
-            if form.is_valid():
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
-                user = authenticate(
-                    request, username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    return redirect('Home')
-                else:
-                    return render(request, 'login.html', {'form': form, 'error': 'Invalid username or password'})
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("Home")
             else:
-                form = LoginForm()
-            return render(request, 'login.html', {'form': form})
+                return render(
+                    request,
+                    "login.html",
+                    {"form": form, "error": "Invalid username or password"},
+                )
+        else:
+            form = LoginForm()
+        return render(request, "login.html", {"form": form})
 
 
 @login_required

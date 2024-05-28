@@ -53,8 +53,7 @@ class Migration(migrations.Migration):
                 ("location", models.CharField(max_length=255)),
                 (
                     "participants",
-                    models.ManyToManyField(related_name="events",
-                                           to="inventory.user"),
+                    models.ManyToManyField(related_name="events", to="inventory.user"),
                 ),
             ],
         ),
@@ -77,8 +76,8 @@ class Migration(migrations.Migration):
                 (
                     "assigned_to",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="inventory.user"),
+                        on_delete=django.db.models.deletion.CASCADE, to="inventory.user"
+                    ),
                 ),
             ],
         ),

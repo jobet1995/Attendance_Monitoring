@@ -58,4 +58,4 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ("name", "start_time", "end_time", "location")
     search_fields = ("name", "description", "location")
     list_filter = ("start_time", "end_time")
-    filter_horizontal = ("participants", )
+    filter_horizontal = ("participants",)
