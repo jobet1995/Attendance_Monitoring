@@ -9,7 +9,9 @@ Version     Author           Date                Logs
 """
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from .models import (
     User,
     Product,
@@ -62,6 +64,59 @@ class UserForm(UserCreationForm):
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "role": forms.Select(attrs={"class": "form-control"}),
         }
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if '@' not in email:
+            raise forms.ValidationError("Please enter a valid email address")
+        return email
+
+    def cleaned_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords do not match")
+        return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.set_password(self.cleaned_data["password1"])
+            user.save()
+        return user
+
+
+class LoginForm(forms.ModelForm):
+    """
+    @description: Form class for user login.
+    This form allows users to enter their credentials (username and password) for authentication.
+    @Attributes:
+        -username (CharField): The field for entering the username.
+        -password (CharField): The field for entering the password.
+    """
+    class Meta:
+        model = User
+        fields = ["username", "password"]
+
+    def clean_username(self):
+        """
+        Sanitizes the username entered by the user.
+        """
+        username = self.cleaned_data['username']
+
+        if not username.isalnum():
+            raise ValidationError(
+                'Username must contain only letters and numbers.')
+
+        if len(username) < 4 or len(username) > 20:
+            raise ValidationError(
+                'Username must be between 4 and 20 characters long.')
+
+        if any(char in username for char in [';', '--']):
+            raise ValidationError('Invalid characters in username.')
+
+        return username
 
 
 class ProductForm(forms.ModelForm):
