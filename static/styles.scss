@@ -1,72 +1,121 @@
-/* Mixins */
-@mixin input-styles {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid $input-border-color;
-    box-sizing: border-box;
-    border-radius: $input-border-radius;
+// variables.scss
+$primary-color: #007bff;
+$secondary-color: #0056b3;
+$background-color: #f4f4f4;
+$form-background-color: #fff;
+$text-color: #777;
+$input-border-color: #ddd;
+
+// mixins.scss
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@mixin button-styles {
-    background-color: $primary-color;
-    color: white;
-    padding: 10px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: $button-border-radius;
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
 }
 
-/* Variables */
-$primary-color: #4CAF50;
-$secondary-color: #45a049;
-$container-background: #fff;
-$input-border-color: #ccc;
-$input-border-radius: 5px;
-$button-border-radius: 5px;
-
-/* Styles for the login page */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: $background-color;
+  @include flex-center;
+  height: 100vh;
+  margin: 0;
 }
 
 .container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: $container-background;
-    border-radius: $input-border-radius;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-
-    .error-code {
-        font-size: 10rem;
-        color: #dc3545;
-        margin: 0;
-        animation: shake 0.5s infinite alternate;
-    }
-
-    .error-message {
-        font-size: 2rem;
-        color: #6c757d;
-    }
+  width: 100%;
+  max-width: 400px;
+  background: $form-background-color;
+  padding: 20px;
+  @include box-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
 }
 
-@keyframes shake {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(5deg);
-    }
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.login-form label {
+  margin-bottom: 5px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid $input-border-color;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.remember-me input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.login-form button {
+  padding: 10px;
+  background: $primary-color;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-form button:hover {
+  background: $secondary-color;
+}
+
+.additional-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.additional-links a {
+  color: $primary-color;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer p {
+  font-size: 12px;
+  color: $text-color;
 }
