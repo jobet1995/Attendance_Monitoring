@@ -88,9 +88,9 @@ def user_login(request):
             login(request)
             return redirect('home')
         else:
-            return render(request, 'login.html', {'error': 'Invalid username or password'})
+            return render(request, 'templates/login.html', {'error': 'Invalid username or password'})
     else:
-        return render(request, 'login.html')
+        return render(request, 'templates/login.html')
 
 
 @login_required
