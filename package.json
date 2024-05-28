@@ -1,18 +1,18 @@
 {
-  "dependencies": {
-    "prettier": "^3.2.5"
-  },
   "name": "python",
   "version": "1.0.0",
   "description": "this is package ",
   "main": "index.js",
   "devDependencies": {
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write '**/*.{html,css,xml,json}'",
-    "lint-js": "eslint '**/*.js'"
+    "lint-js": "eslint '**/*.js'",
+    "prettier": "prettier '*/*.{html,css,xml,json}'"
   },
   "repository": {
     "type": "git",
