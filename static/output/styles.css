@@ -1,0 +1,106 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 20px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.login-form label {
+  margin-bottom: 5px;
+}
+
+.login-form input[type=text],
+.login-form input[type=password] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.remember-me input[type=checkbox] {
+  margin-right: 10px;
+}
+
+.login-form button {
+  padding: 10px;
+  background: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-form button:hover {
+  background: #0056b3;
+}
+
+.additional-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.additional-links a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer p {
+  font-size: 12px;
+  color: #777;
+}
+
+/*# sourceMappingURL=styles.css.map */
