@@ -30,7 +30,7 @@ from .forms import (
     TaskForm,
     EventForm,
     LoginForm,
-    UserForm
+    UserForm,
 )
 from .models import (
     Product,
@@ -55,18 +55,18 @@ from .models import (
 def register(request):
     """
     @Description: View function for user registration
-    @Attributes: 
+    @Attributes:
         form (LoginForm): A form for Login users
     @Return:
         On POST: saves the user
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
-            return redirect('login')
+            return redirect("login")
     else:
         form = UserForm()
-    return render(request, 'registration.html', {'form': form})
+    return render(request, "registration.html", {"form": form})
 
 
 def user_login(request):
@@ -78,21 +78,24 @@ def user_login(request):
         On GET: Renders the login page with an empty form.
         On POST: Authenticates the user and logs them in or shows error messages.
     """
-    if request.method == 'POST':
-        form = LoginForm(request.POST):
-            if form.is_valid():
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
-                user = authenticate(
-                    request, username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    return redirect('Home')
-                else:
-                    return render(request, 'login.html', {'form': form, 'error': 'Invalid username or password'})
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("Home")
             else:
-                form = LoginForm()
-            return render(request, 'login.html', {'form': form})
+                return render(
+                    request,
+                    "login.html",
+                    {"form": form, "error": "Invalid username or password"},
+                )
+        else:
+            form = LoginForm()
+        return render(request, "login.html", {"form": form})
 
 
 @login_required
@@ -176,8 +179,7 @@ def order_detail_list(request):
     """
     order_details = OrderDetail.objects.all()
     return render(
-        request, "order_detail/order_detail_list.html", {
-            "order_details": order_details}
+        request, "order_detail/order_detail_list.html", {"order_details": order_details}
     )
 
 
@@ -313,8 +315,7 @@ def update_product(request, product_id):
     else:
         form = ProductForm(instance=product)
     return render(
-        request, "product/update_product.html", {
-            "form": form, "product": product}
+        request, "product/update_product.html", {"form": form, "product": product}
     )
 
 
@@ -390,8 +391,7 @@ def update_supplier(request, supplier_id):
     else:
         form = SupplierForm(instance=supplier)
     return render(
-        request, "supplier/update_supplier.html", {
-            "form": form, "supplier": supplier}
+        request, "supplier/update_supplier.html", {"form": form, "supplier": supplier}
     )
 
 
@@ -573,8 +573,7 @@ def search_inventory(request):
     """
     if request.method == "GET" and "query" in request.GET:
         query = request.GET.get("query")
-        inventories = Inventory.objects.filter(
-            product__product_name__icontains=query)
+        inventories = Inventory.objects.filter(product__product_name__icontains=query)
         return render(
             request,
             "inventory/search_inventory.html",
@@ -650,8 +649,7 @@ def search_order(request):
         query = request.GET.get("query")
         orders = Order.objects.filter(order_number__icontains=query)
         return render(
-            request, "order/search_order.html", {
-                "orders": orders, "query": query}
+            request, "order/search_order.html", {"orders": orders, "query": query}
         )
     else:
         return render(request, "order/search_order.html")
@@ -725,8 +723,7 @@ def search_order_detail(request):
     """
     if request.method == "GET" and "query" in request.GET:
         query = request.GET.get("query")
-        order_details = OrderDetail.objects.filter(
-            order__order_number__icontains=query)
+        order_details = OrderDetail.objects.filter(order__order_number__icontains=query)
         return render(
             request,
             "order_detail/search_order_detail.html",
@@ -764,8 +761,7 @@ def update_product_supplier(request, product_supplier_id):
     @Param: product_supplier_id (int): The ID of the product supplier to be updated.
     @Return: HttpResponse: The rendered update_product_supplier.html template with the form.
     """
-    product_supplier = get_object_or_404(
-        ProductSupplier, pk=product_supplier_id)
+    product_supplier = get_object_or_404(ProductSupplier, pk=product_supplier_id)
     if request.method == "POST":
         form = ProductSupplierForm(request.POST, instance=product_supplier)
         if form.is_valid():
@@ -791,8 +787,7 @@ def delete_product_supplier(request, product_supplier_id):
     @Param: product_supplier_id (int): The ID of the product supplier to be deleted.
     @Return: HttpResponse: The rendered product_supplier_list.html template.
     """
-    product_supplier = get_object_or_404(
-        ProductSupplier, pk=product_supplier_id)
+    product_supplier = get_object_or_404(ProductSupplier, pk=product_supplier_id)
     product_supplier.delete()
     return JsonResponse({"success": True})
 
@@ -858,8 +853,7 @@ def update_customer(request, customer_id):
     else:
         form = CustomerForm(instance=customer)
     return render(
-        request, "customer/update_customer.html", {
-            "form": form, "customer": customer}
+        request, "customer/update_customer.html", {"form": form, "customer": customer}
     )
 
 
@@ -963,8 +957,7 @@ def search_customer_order(request):
     """
     if request.method == "GET" and "query" in request.GET:
         query = request.GET.get("query")
-        customer_orders = CustomerOrder.objects.filter(
-            order_number__icontains=query)
+        customer_orders = CustomerOrder.objects.filter(order_number__icontains=query)
         return render(
             request,
             "customer_order/search_customer_order.html",
@@ -1014,8 +1007,7 @@ def update_shipment(request, shipment_id):
     else:
         form = ShipmentForm(instance=shipment)
     return render(
-        request, "shipment/update_shipment.html", {
-            "form": form, "shipment": shipment}
+        request, "shipment/update_shipment.html", {"form": form, "shipment": shipment}
     )
 
 
@@ -1169,8 +1161,7 @@ def add_inventory_transaction(request):
     else:
         form = InventoryTransactionForm()
     return render(
-        request, "inventory_transaction/add_inventory_transaction.html", {
-            "form": form}
+        request, "inventory_transaction/add_inventory_transaction.html", {"form": form}
     )
 
 
@@ -1192,8 +1183,7 @@ def add_customer_order_detail(request):
     else:
         form = CustomerOrderDetailForm()
     return render(
-        request, "customer_order_detail/add_customer_order_detail.html", {
-            "form": form}
+        request, "customer_order_detail/add_customer_order_detail.html", {"form": form}
     )
 
 
@@ -1209,8 +1199,7 @@ def update_customer_order_detail(request, customer_order_detail_id):
         CustomerOrderDetail, pk=customer_order_detail_id
     )
     if request.method == "POST":
-        form = CustomerOrderDetailForm(
-            request.POST, instance=customer_order_detail)
+        form = CustomerOrderDetailForm(request.POST, instance=customer_order_detail)
         if form.is_valid():
             form.save()
             return JsonResponse({"success": True})

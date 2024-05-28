@@ -333,8 +333,7 @@ class ShipmentDetail(models.Model):
     """
 
     shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE)
-    order = models.ForeignKey(
-        Order, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     customer_order = models.ForeignKey(
         CustomerOrder, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -376,8 +375,7 @@ class InventoryTransaction(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    transaction_type = models.CharField(
-        max_length=50, choices=TRANSACTION_TYPE_CHOICES)
+    transaction_type = models.CharField(max_length=50, choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateTimeField(default=timezone.now)
 
 
@@ -391,6 +389,7 @@ class Task(models.Model):
         - completed (BooleanField): A boolean indicating whether the task has been completed.
         - assigned_to (ForeignKey): A foreign key linking to the User model to indicate who the task is assigned to.
     """
+
     title = models.CharField(max_length=255)
     description = models.TextField()
     due_date = models.DateField()
@@ -412,12 +411,13 @@ class Event(models.Model):
         - location (CharField): The location where the event will take place.
         - participants (ManyToManyField): A many-to-many relationship with the User model indicating who will participate in the event.
     """
+
     name = models.CharField(max_length=255)
     description = models.TextField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     location = models.CharField(max_length=255)
-    participants = models.ManyToManyField(User, related_name='events')
+    participants = models.ManyToManyField(User, related_name="events")
 
     def __str__(self):
         return self.name
@@ -426,13 +426,13 @@ class Event(models.Model):
 @receiver(post_save, sender=Order)
 def create_task_for_new_order(sender, instance, created, **kwargs):
     if created:
-        admin_user = User.objects.filter(role='Administrator').first()
+        admin_user = User.objects.filter(role="Administrator").first()
         if admin_user:
             Task.objects.create(
                 title=f"New Order #{instance.id} placed",
                 description="A new order has been placed with.",
                 due_date=timezone.now() + timezone.timedelta(days=1),
-                assigned_to=admin_user
+                assigned_to=admin_user,
             )
 
 
@@ -448,11 +448,11 @@ def create_order_details(sender, instance, created, **kwargs):
     @Returns:
         None
     """
-    if not created and instance.status == 'Confirmed':
+    if not created and instance.status == "Confirmed":
         for item in instance.items.all():
             OrderDetail.objects.create(
                 order=instance,
                 product=item.product,
                 quantity=item.quantity,
-                customer=instance.customer
+                customer=instance.customer,
             )

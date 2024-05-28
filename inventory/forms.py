@@ -66,8 +66,8 @@ class UserForm(UserCreationForm):
         }
 
     def clean_email(self):
-        email = self.cleaned_data['email']
-        if '@' not in email:
+        email = self.cleaned_data["email"]
+        if "@" not in email:
             raise forms.ValidationError("Please enter a valid email address")
         return email
 
@@ -95,6 +95,7 @@ class LoginForm(forms.ModelForm):
         -username (CharField): The field for entering the username.
         -password (CharField): The field for entering the password.
     """
+
     class Meta:
         model = User
         fields = ["username", "password"]
@@ -103,18 +104,16 @@ class LoginForm(forms.ModelForm):
         """
         Sanitizes the username entered by the user.
         """
-        username = self.cleaned_data['username']
+        username = self.cleaned_data["username"]
 
         if not username.isalnum():
-            raise ValidationError(
-                'Username must contain only letters and numbers.')
+            raise ValidationError("Username must contain only letters and numbers.")
 
         if len(username) < 4 or len(username) > 20:
-            raise ValidationError(
-                'Username must be between 4 and 20 characters long.')
+            raise ValidationError("Username must be between 4 and 20 characters long.")
 
-        if any(char in username for char in [';', '--']):
-            raise ValidationError('Invalid characters in username.')
+        if any(char in username for char in [";", "--"]):
+            raise ValidationError("Invalid characters in username.")
 
         return username
 
@@ -152,8 +151,7 @@ class ProductForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"class": "form-control"}),
             "category": forms.TextInput(attrs={"class": "form-control"}),
             "unit_price": forms.NumberInput(attrs={"class": "form-control"}),
-            "reorder_level":
-            forms.NumberInput(attrs={"class": "form-control"}),
+            "reorder_level": forms.NumberInput(attrs={"class": "form-control"}),
         }
 
 
@@ -288,15 +286,11 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ["order_date", "supplier", "status"]
         widgets = {
-            "order_date":
-            forms.DateInput(attrs={
-                "class": "form-control",
-                "type": "date"
-            }),
-            "supplier":
-            forms.Select(attrs={"class": "form-control"}),
-            "status":
-            forms.Select(attrs={"class": "form-control"}),
+            "order_date": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "supplier": forms.Select(attrs={"class": "form-control"}),
+            "status": forms.Select(attrs={"class": "form-control"}),
         }
 
 
@@ -387,15 +381,11 @@ class CustomerOrderForm(forms.ModelForm):
         model = CustomerOrder
         fields = ["customer", "order_date", "status"]
         widgets = {
-            "customer":
-            forms.Select(attrs={"class": "form-control"}),
-            "order_date":
-            forms.DateInput(attrs={
-                "class": "form-control",
-                "type": "date"
-            }),
-            "status":
-            forms.Select(attrs={"class": "form-control"}),
+            "customer": forms.Select(attrs={"class": "form-control"}),
+            "order_date": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "status": forms.Select(attrs={"class": "form-control"}),
         }
 
 
@@ -444,17 +434,12 @@ class ShipmentForm(forms.ModelForm):
         model = Shipment
         fields = ["shipment_date", "carrier", "tracking_number", "status"]
         widgets = {
-            "shipment_date":
-            forms.DateInput(attrs={
-                "class": "form-control",
-                "type": "date"
-            }),
-            "carrier":
-            forms.TextInput(attrs={"class": "form-control"}),
-            "tracking_number":
-            forms.TextInput(attrs={"class": "form-control"}),
-            "status":
-            forms.Select(attrs={"class": "form-control"}),
+            "shipment_date": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "carrier": forms.TextInput(attrs={"class": "form-control"}),
+            "tracking_number": forms.TextInput(attrs={"class": "form-control"}),
+            "status": forms.Select(attrs={"class": "form-control"}),
         }
 
 
@@ -506,23 +491,15 @@ class StockAdjustmentForm(forms.ModelForm):
 
     class Meta:
         model = StockAdjustment
-        fields = [
-            "product", "warehouse", "adjustment_date", "quantity", "reason"
-        ]
+        fields = ["product", "warehouse", "adjustment_date", "quantity", "reason"]
         widgets = {
-            "product":
-            forms.Select(attrs={"class": "form-control"}),
-            "warehouse":
-            forms.Select(attrs={"class": "form-control"}),
-            "adjustment_date":
-            forms.DateInput(attrs={
-                "class": "form-control",
-                "type": "date"
-            }),
-            "quantity":
-            forms.NumberInput(attrs={"class": "form-control"}),
-            "reason":
-            forms.TextInput(attrs={"class": "form-control"}),
+            "product": forms.Select(attrs={"class": "form-control"}),
+            "warehouse": forms.Select(attrs={"class": "form-control"}),
+            "adjustment_date": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "quantity": forms.NumberInput(attrs={"class": "form-control"}),
+            "reason": forms.TextInput(attrs={"class": "form-control"}),
         }
 
 
@@ -553,19 +530,13 @@ class InventoryTransactionForm(forms.ModelForm):
             "transaction_date",
         ]
         widgets = {
-            "product":
-            forms.Select(attrs={"class": "form-control"}),
-            "warehouse":
-            forms.Select(attrs={"class": "form-control"}),
-            "quantity":
-            forms.NumberInput(attrs={"class": "form-control"}),
-            "transaction_type":
-            forms.Select(attrs={"class": "form-control"}),
-            "transaction_date":
-            forms.DateTimeInput(attrs={
-                "class": "form-control",
-                "type": "datetime-local"
-            }),
+            "product": forms.Select(attrs={"class": "form-control"}),
+            "warehouse": forms.Select(attrs={"class": "form-control"}),
+            "quantity": forms.NumberInput(attrs={"class": "form-control"}),
+            "transaction_type": forms.Select(attrs={"class": "form-control"}),
+            "transaction_date": forms.DateTimeInput(
+                attrs={"class": "form-control", "type": "datetime-local"}
+            ),
         }
 
 
@@ -582,23 +553,15 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = [
-            "title", "description", "due_date", "completed", "assigned_to"
-        ]
+        fields = ["title", "description", "due_date", "completed", "assigned_to"]
         widgets = {
-            "title":
-            forms.TextInput(attrs={"class": "form-control"}),
-            "description":
-            forms.Textarea(attrs={"class": "form-control"}),
-            "due_date":
-            forms.DateInput(attrs={
-                "class": "form-control",
-                "type": "date"
-            }),
-            "completed":
-            forms.CheckboxInput(attrs={"class": "form-check-input"}),
-            "assigned_to":
-            forms.Select(attrs={"class": "form-control"}),
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "due_date": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "completed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "assigned_to": forms.Select(attrs={"class": "form-control"}),
         }
 
 
@@ -625,22 +588,14 @@ class EventForm(forms.ModelForm):
             "participants",
         ]
         widgets = {
-            "name":
-            forms.TextInput(attrs={"class": "form-control"}),
-            "description":
-            forms.Textarea(attrs={"class": "form-control"}),
-            "start_time":
-            forms.DateTimeInput(attrs={
-                "class": "form-control",
-                "type": "datetime-local"
-            }),
-            "end_time":
-            forms.DateTimeInput(attrs={
-                "class": "form-control",
-                "type": "datetime-local"
-            }),
-            "location":
-            forms.TextInput(attrs={"class": "form-control"}),
-            "participants":
-            forms.SelectMultiple(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "start_time": forms.DateTimeInput(
+                attrs={"class": "form-control", "type": "datetime-local"}
+            ),
+            "end_time": forms.DateTimeInput(
+                attrs={"class": "form-control", "type": "datetime-local"}
+            ),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+            "participants": forms.SelectMultiple(attrs={"class": "form-control"}),
         }
