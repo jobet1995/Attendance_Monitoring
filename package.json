@@ -11,7 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint-js": "eslint '**/*.js'",
-    "prettier": "prettier '*/*.{html,css,xml,json}'"
+    "prettier": "prettier '*/*.{html,css,xml,json,py}'"
   },
   "repository": {
     "type": "git",
