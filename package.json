@@ -10,7 +10,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write '**/*.{html,css,xml,json}'",
     "lint-js": "eslint '**/*.js'",
     "prettier": "prettier '*/*.{html,css,xml,json}'"
   },
