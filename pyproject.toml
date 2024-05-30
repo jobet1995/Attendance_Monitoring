@@ -1,5 +1,5 @@
 [tool.poetry]
-authors = ["Your Name <you@example.com>"]
+authors = ["Jobet Casquejo"]
 description = ""
 name = "django-template"
 version = "0.1.0"
@@ -12,6 +12,13 @@ python = "^3.10"
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 useLibraryCodeForTypes = true
 exclude = [".cache"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "inventory/test",
+    "inventory"
+]
+
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/configuration/
