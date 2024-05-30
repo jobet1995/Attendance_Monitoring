@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
+from django.contrib import messages
 from .forms import (
     ProductForm,
     SupplierForm,
@@ -81,16 +82,16 @@ def user_login(request):
     """
     if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['password'] = authenticate(
-            request, username=username, password=password)
+        password = request.POST['password'] 
+        user = authenticate(request, username=username, password=password)
 
-        if not None:
-            login(request)
+        if user is not None:
+            login(request, user)
             return redirect('home')
         else:
-            return render(request, 'templates/login.html', {'error': 'Invalid username or password'})
+            messages.error(request, 'Invalid username or password')
     else:
-        return render(request, 'templates/login.html')
+        return render(request, 'login.html')
 
 
 @login_required
