@@ -81,8 +81,12 @@ def user_login(request):
         On POST: Authenticates the user and logs them in or shows error messages.
     """
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password'] 
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+    else:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -90,9 +94,7 @@ def user_login(request):
             return redirect('home')
         else:
             messages.error(request, 'Invalid username or password')
-    else:
-        return render(request, 'login.html')
-
+            return redirect('login')
 
 @login_required
 def product_list(request):
