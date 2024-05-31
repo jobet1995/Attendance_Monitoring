@@ -8,8 +8,9 @@ Version     Author           Date                Logs
 1.0         Jobet Casquejo   2024-5-26           Initial Version
 """
 
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser, Group, Permission, PermissionsMixin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
@@ -18,8 +19,50 @@ from django.dispatch import receiver
 
 User = get_user_model()
 
+class UserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, **extra_fields):
+        """
+        Create and return a regular user with an email and password.
+        """
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-class User(AbstractUser):
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        """
+        Create and return a superuser with an email and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+            return self.create_user(username, email, password, **extra_fields)
+            
+class InternalUser(AbstractBaseUser):
+    username = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.username
+
+
+class User(AbstractUser, PermissionsMixin):
     """
     @Description: Custom user model for managing different roles within the inventory system.
     @Attributes:
@@ -67,6 +110,7 @@ class User(AbstractUser):
         blank=True,
         related_name="inventory_users_permissions",  # Unique related_name
     )
+
 
 
 class Product(models.Model):
@@ -421,8 +465,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
-
-
+    
 @receiver(post_save, sender=Order)
 def create_task_for_new_order(sender, instance, created, **kwargs):
     if created:
@@ -456,3 +499,4 @@ def create_order_details(sender, instance, created, **kwargs):
                 quantity=item.quantity,
                 customer=instance.customer,
             )
+
