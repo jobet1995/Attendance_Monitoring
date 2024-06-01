@@ -1,0 +1,32 @@
+from graphviz import Digraph
+
+dot = Digraph()
+
+dot.node('Admin', 'Administrator')
+dot.node('MU', 'Manage Users')
+dot.node('MD', 'User Database')
+dot.node('UL', 'User List')
+dot.node('MI', 'Manage Inventory')
+dot.node('ID', 'Inventory Database')
+dot.node('IL', 'Inventory List')
+dot.node('MO', 'Manage Orders')
+dot.node('OD', 'Order Database')
+dot.node('OL', 'Orders List')
+dot.node('GR', 'Generate Reports')
+dot.node('RD', 'Report Database')
+dot.node('RL', 'Reports List')
+
+dot.edge('Admin', 'MU')
+dot.edge('MU', 'MD')
+dot.edge('MD', 'UL')
+dot.edge('UL', 'MI')
+dot.edge('MI', 'ID')
+dot.edge('ID', 'IL')
+dot.edge('IL', 'MO')
+dot.edge('MO', 'OD')
+dot.edge('OD', 'OL')
+dot.edge('Admin', 'GR')
+dot.edge('GR', 'RD')
+dot.edge('RD', 'RL')
+
+dot.render('admin_level0_flowchart', format='png', view=True)

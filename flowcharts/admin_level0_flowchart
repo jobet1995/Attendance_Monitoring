@@ -1,0 +1,27 @@
+digraph {
+	Admin [label=Administrator]
+	MU [label="Manage Users"]
+	MD [label="User Database"]
+	UL [label="User List"]
+	MI [label="Manage Inventory"]
+	ID [label="Inventory Database"]
+	IL [label="Inventory List"]
+	MO [label="Manage Orders"]
+	OD [label="Order Database"]
+	OL [label="Orders List"]
+	GR [label="Generate Reports"]
+	RD [label="Report Database"]
+	RL [label="Reports List"]
+	Admin -> MU
+	MU -> MD
+	MD -> UL
+	UL -> MI
+	MI -> ID
+	ID -> IL
+	IL -> MO
+	MO -> OD
+	OD -> OL
+	Admin -> GR
+	GR -> RD
+	RD -> RL
+}
