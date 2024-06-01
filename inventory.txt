@@ -1,0 +1,200 @@
+@startuml
+
+class AbstractBaseUser {
+  - last_login: datetime
+  - is_superuser: bool
+  - is_staff: bool
+  - is_active: bool
+  - date_joined: datetime
+}
+
+class PermissionsMixin {
+  + get_group_permissions()
+  + get_all_permissions()
+  + has_perm()
+  + has_module_perms()
+}
+
+class User {
+  - username: str
+  - email: str
+  - first_name: str
+  - last_name: str
+  - role: str
+  - groups: ManyToManyField
+  - user_permissions: ManyToManyField
+  + set_password()
+  + check_password()
+}
+
+class UserManager {
+  + create_user(username: str, email: str, password: str, **extra_fields)
+  + create_superuser(username: str, email: str, password: str, **extra_fields)
+}
+
+class InternalUser {
+  - username: str
+  - email: str
+  - is_staff: bool
+  - is_active: bool
+  - date_joined: datetime
+  + __str__()
+}
+
+User --|> AbstractBaseUser
+User --|> PermissionsMixin
+User --> UserManager: uses
+InternalUser --|> AbstractBaseUser
+InternalUser --> UserManager: uses
+
+class Profile {
+  - name: str
+  - users: ManyToManyField
+}
+
+class Product {
+  - name: str
+  - description: str
+  - price: float
+  - stock: int
+  - supplier: ForeignKey
+}
+
+class Supplier {
+  - name: str
+  - contact_info: str
+  - products: OneToMany
+}
+
+class ProductSupplier {
+  - product: ForeignKey
+  - supplier: ForeignKey
+}
+
+class Order {
+  - order_date: datetime
+  - user: ForeignKey
+  - product: ForeignKey
+  - quantity: int
+  - total_price: float
+}
+
+class Inventory {
+  - product: ForeignKey
+  - quantity: int
+}
+
+class Warehouse {
+  - warehouse_name: str
+  - location: str
+  - created_at: datetime
+  + __str__()
+}
+
+class OrderDetail {
+  - order: ForeignKey
+  - product: ForeignKey
+  - quantity: int
+  - unit_price: decimal
+}
+
+class Customer {
+    + customer_name: string
+    + contact_name: string
+    + address: string
+    + city: string
+    + postal_code: string
+    + country: string
+    + phone: string
+}
+
+class CustomerOrder {
+    - customer: ForeignKey
+    - order_date: DateField
+    - status: CharField
+    - created_at: DateTimeField
+}
+
+class CustomerOrderDetail {
+    - customer_order: ForeignKey
+    - products: OneToManyField
+    - quantity: Integer
+    - unit_price: Decimal
+}
+
+class Shipment {
+    - shipment_date: Date
+    - carrier: CharField
+    - tracking_number: CharField
+    - status: CharField
+    - created_at: DateTimeField
+}
+
+class ShipmentDetail {
+    - shipment: OneToManyField
+    - order: OneToManyField
+    - customer_order: OneToManyField
+    - product: OneToManyField
+    - quantity: Integer
+}
+
+class StockAdjustment {
+    - product: OneToManyField
+    - warehouse: OneToManyField
+    - adjustment_date: Date
+    - quantity: Integer
+    - reason: CharField
+}
+
+class InventoryTransaction {
+    - product: OneToManyField
+    - warehouse: OneToManyField
+    - quantity: Integer
+    - transaction_type: CharField
+    - transaction_date: DateTimeField
+}
+
+class Task {
+    - title: CharField
+    - description: TextField
+    - due_date: DateField
+    - completed: BooleanField
+    - assigned_to: ForeignKey
+}
+
+class Event {
+    - name: CharField
+    - description: TextField
+    - start_time: DateTimeField
+    - end_time: DateTimeField
+    - location: CharField
+    - participants: ManyToManyField
+}
+
+User "1" --> "*" Profile: has
+Profile "1" --> "*" User: contains
+Product "1" --> "*" ProductSupplier: has
+Supplier "1" --> "*" ProductSupplier: supplies
+Order "1" --> "*" User: ordered by
+Order "1" --> "*" OrderDetail: has
+OrderDetail "1" --> "*" Product: contains
+OrderDetail "1" --> "*" Order: belongs to
+Inventory "1" --> "*" Product: contains
+ProductSupplier "1" --> "*" Product: references
+ProductSupplier "1" --> "*" Supplier: references
+Warehouse "1" --> "*" Inventory: stores
+User "1" -- "1" Customer : has
+CustomerOrder "1" --> "*" Customer: references
+CustomerOrderDetail "1" --> CustomerOrder: contains
+CustomerOrderDetail "*" --> Product: has
+ShipmentDetail "*" --> Shipment: contains
+ShipmentDetail "*" --> Order: contains
+ShipmentDetail "*" --> Product: contains
+ShipmentDetail "*" --> CustomerOrder: contains
+StockAdjustment "1" --> Product: contains
+StockAdjustment "1" --> Warehouse: contains
+InventoryTransaction "1" --> Product: contains
+InventoryTransaction "1" --> Warehouse: contains
+Task "1" --> "1" User: contains
+Event "*" --> "*" User: contains
+@enduml
