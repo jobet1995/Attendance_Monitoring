@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "vkwyql-8000.csb.app",
     "zyz6zv-8000.csb.app",
     "zyz6zv-3000.csb.app",
+    "7n9khg-8000.csb.app"
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://*.replit.dev",
@@ -41,6 +42,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://fgxp72-8000.csb.app",
     "https://j5qd9d-8000.csb.app",
     "https://vkwyql-8000.csb.app",
+    "https://7n9khg-8000.csb.app"
 ]
 
 # Application definition
