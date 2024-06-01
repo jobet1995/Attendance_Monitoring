@@ -76,8 +76,8 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
 
         if not username or not password:
             return HttpResponse('Username and password are required')
