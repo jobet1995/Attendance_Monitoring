@@ -25,6 +25,14 @@ SECRET_KEY = "django-insecure-4ju2n@$f9d0c=h)_g0lbb%k9&@rf(xa$d$g$&5ri$uf)*gev^4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'your-smtp-host'
+EMAIL_PORT = 587  # Port for SMTP
+# Use TLS (Transport Layer Security) to secure the connection
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@example.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'your-email-password'  # Your email password
+
 ALLOWED_HOSTS = [
     ".replit.dev",
     ".replit.app",
