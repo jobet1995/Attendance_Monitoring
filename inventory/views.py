@@ -11,11 +11,10 @@ Version     Author           Date                Logs
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
-from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.core.mail import EmailMessage
+from django.http import HttpResponse
 from .forms import (
     ProductForm,
     SupplierForm,
@@ -76,29 +75,21 @@ def register(request):
 
 
 def user_login(request):
-    """
-    @Description: View function to handle user login.
-    @Attributes:
-        form (AuthenticationForm): A form for authenticating users.
-    @Return:
-        On GET: Renders the login page with an empty form.
-        On POST: Authenticates the user and logs them in or shows error messages.
-    """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-    else:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+
+        if not username or not password:
+            return HttpResponse('Username and password are required')
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('home')  # Redirect to a home page or dashboard
         else:
-            messages.error(request, 'Invalid username or password')
-            return redirect('login')
+            return HttpResponse('Invalid login details')
+    else:
+        return render(request, 'login.html')
 
 
 @login_required
