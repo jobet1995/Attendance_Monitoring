@@ -14,6 +14,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from django.core.mail import EmailMessage
 from .forms import (
     ProductForm,
     SupplierForm,
@@ -33,6 +35,7 @@ from .forms import (
     EventForm,
     LoginForm,
     UserForm,
+    EmailAttachmentForm
 )
 from .models import (
     Product,
@@ -51,6 +54,7 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
+    EmailAttachment
 )
 
 
@@ -95,6 +99,7 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login')
+
 
 @login_required
 def product_list(request):
@@ -1391,3 +1396,37 @@ def event_update(request, pk):
     else:
         form = EventForm(instance=event)
     return render(request, "event/event_form.html", {"form": form})
+
+
+def is_admin(user):
+    return user.is_superuser
+
+
+@user_passes_test(is_admin)
+def admin_compose_email(request):
+    if request.method == 'POST':
+        form = EmailAttachmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            email_instance = form.save(commit=False)
+            email_instance.sender = request.user
+            email_instance.save()
+
+            email = EmailMessage(
+                subject=email_instance.subject,
+                body=email_instance.message,
+                from_email=request.user.email,
+                to=[email_instance.recipient],
+            )
+
+            if email_instance.attachment:
+                email.attach(email_instance.attachment.name, email_instance.attachment.read(
+                ), email_instance.attachment.content_type)
+
+            email.send()
+            # Redirect to a success page or wherever you want
+            return redirect('success')
+
+    else:
+        form = EmailAttachmentForm()
+
+    return render(request, 'admin_compose_email.html', {'form': form})
