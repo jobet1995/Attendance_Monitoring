@@ -27,6 +27,7 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
+    EmailAttachment
 )
 
 admin.site.register(User)
@@ -44,6 +45,7 @@ admin.site.register(Shipment)
 admin.site.register(ShipmentDetail)
 admin.site.register(StockAdjustment)
 admin.site.register(InventoryTransaction)
+admin.site.register(EmailAttachment)
 
 
 @admin.register(Task)

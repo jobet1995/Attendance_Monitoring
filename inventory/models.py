@@ -19,6 +19,7 @@ from django.dispatch import receiver
 
 User = get_user_model()
 
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         """
@@ -45,7 +46,8 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
             return self.create_user(username, email, password, **extra_fields)
-            
+
+
 class InternalUser(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
@@ -61,6 +63,15 @@ class InternalUser(AbstractBaseUser):
     def __str__(self):
         return self.username
 
+
+class EmailAttachment(models.Model):
+    customer_email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+    attachment = models.FileField(upload_to='email_attachments/')
+
+    def __str__(self):
+        return self.customer_email
 
 class User(AbstractUser, PermissionsMixin):
     """
@@ -110,7 +121,6 @@ class User(AbstractUser, PermissionsMixin):
         blank=True,
         related_name="inventory_users_permissions",  # Unique related_name
     )
-
 
 
 class Product(models.Model):
@@ -377,7 +387,8 @@ class ShipmentDetail(models.Model):
     """
 
     shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.SET_NULL, null=True, blank=True)
     customer_order = models.ForeignKey(
         CustomerOrder, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -419,7 +430,8 @@ class InventoryTransaction(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    transaction_type = models.CharField(max_length=50, choices=TRANSACTION_TYPE_CHOICES)
+    transaction_type = models.CharField(
+        max_length=50, choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateTimeField(default=timezone.now)
 
 
@@ -465,7 +477,8 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 @receiver(post_save, sender=Order)
 def create_task_for_new_order(sender, instance, created, **kwargs):
     if created:
@@ -499,4 +512,3 @@ def create_order_details(sender, instance, created, **kwargs):
                 quantity=item.quantity,
                 customer=instance.customer,
             )
-

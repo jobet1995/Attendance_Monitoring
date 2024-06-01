@@ -30,6 +30,7 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
+    EmailAttachment
 )
 
 
@@ -107,10 +108,12 @@ class LoginForm(forms.ModelForm):
         username = self.cleaned_data["username"]
 
         if not username.isalnum():
-            raise ValidationError("Username must contain only letters and numbers.")
+            raise ValidationError(
+                "Username must contain only letters and numbers.")
 
         if len(username) < 4 or len(username) > 20:
-            raise ValidationError("Username must be between 4 and 20 characters long.")
+            raise ValidationError(
+                "Username must be between 4 and 20 characters long.")
 
         if any(char in username for char in [";", "--"]):
             raise ValidationError("Invalid characters in username.")
@@ -491,7 +494,8 @@ class StockAdjustmentForm(forms.ModelForm):
 
     class Meta:
         model = StockAdjustment
-        fields = ["product", "warehouse", "adjustment_date", "quantity", "reason"]
+        fields = ["product", "warehouse",
+                  "adjustment_date", "quantity", "reason"]
         widgets = {
             "product": forms.Select(attrs={"class": "form-control"}),
             "warehouse": forms.Select(attrs={"class": "form-control"}),
@@ -553,7 +557,8 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ["title", "description", "due_date", "completed", "assigned_to"]
+        fields = ["title", "description",
+                  "due_date", "completed", "assigned_to"]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control"}),
@@ -599,3 +604,22 @@ class EventForm(forms.ModelForm):
             "location": forms.TextInput(attrs={"class": "form-control"}),
             "participants": forms.SelectMultiple(attrs={"class": "form-control"}),
         }
+
+
+class EmailAttachmentForm(forms.Form):
+    """
+    @description: Form for uploading email attachments.
+    @attributes:
+        attachment (FileField): The attachment file to be uploaded.
+    @widgets:
+        attachment (FileInput): Rendered as a file input with Bootstrap form control styling.
+    """
+
+    model = EmailAttachment
+    fields = ["customer_email", "subject", "body", "attachment"]
+    widgets = {
+        "customer_email": forms.EmailInput(attrs={"class": "form-control"}),
+        "subject": forms.TextInput(attrs={"class": "form-control"}),
+        "body": forms.Textarea(attrs={"class": "form-control"}),
+        "attachment": forms.FileInput(attrs={"class": "form-control"}),
+    }

@@ -28,6 +28,7 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
+    EmailAttachment
 )
 
 User = get_user_model()
@@ -356,7 +357,8 @@ class ShipmentSerializer(serializers.ModelSerializer):
         """
 
         model = Shipment
-        fields = ["id", "shipment_date", "carrier", "tracking_number", "status"]
+        fields = ["id", "shipment_date",
+                  "carrier", "tracking_number", "status"]
 
 
 class ShipmentDetailSerializer(serializers.ModelSerializer):
@@ -382,7 +384,8 @@ class ShipmentDetailSerializer(serializers.ModelSerializer):
         """
 
         model = ShipmentDetail
-        fields = ["id", "shipment", "order", "customer_order", "product", "quantity"]
+        fields = ["id", "shipment", "order",
+                  "customer_order", "product", "quantity"]
 
 
 class StockAdjustmentSerializer(serializers.ModelSerializer):
@@ -408,7 +411,8 @@ class StockAdjustmentSerializer(serializers.ModelSerializer):
         """
 
         model = StockAdjustment
-        fields = ["id", "product", "warehouse", "adjustment_date", "quantity", "reason"]
+        fields = ["id", "product", "warehouse",
+                  "adjustment_date", "quantity", "reason"]
 
 
 class InventoryTransactionSerializer(serializers.ModelSerializer):
@@ -436,11 +440,13 @@ class TaskSerializer(serializers.ModelSerializer):
         - assigned_to (PrimaryKeyRelatedField): A foreign key linking to the User model to indicate who the task is assigned to.
     """
 
-    assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    assigned_to = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all())
 
     class Meta:
         model = Task
-        fields = ["id", "title", "description", "due_date", "completed", "assigned_to"]
+        fields = ["id", "title", "description",
+                  "due_date", "completed", "assigned_to"]
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -470,4 +476,22 @@ class EventSerializer(serializers.ModelSerializer):
             "end_time",
             "location",
             "participants",
+        ]
+
+class EmailAttachmentSerializer(serializers.Serializer):
+    """
+    @Description: Serializer for the EmailAttachment model.
+    @Attributes:
+        - id (IntegerField): The unique identifier for the email attachment.
+        - name (CharField): The name of the email attachment.
+        - file (FileField): The file of the email attachment.
+    """
+
+    class Meta:
+        model = EmailAttachment
+        fields = [
+            "customer_email",
+            "subject",
+            "body",
+            "attachments"
         ]
