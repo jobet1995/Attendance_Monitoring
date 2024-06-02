@@ -135,6 +135,7 @@ class User(AbstractUser, PermissionsMixin):
         ("Purchasing Manager", "Purchasing Manager"),
         ("Sales Manager", "Sales Manager"),
         ("Customer Service Representative", "Customer Service Representative"),
+        ("Technical Service Representative", "Technical Service Representative"),
         ("Accountant", "Accountant"),
         ("Auditor", "Auditor"),
         ("System User", "System User"),
