@@ -1,0 +1,48 @@
+@startuml
+package "Inventory Management System" {
+    
+    package "User Management" {
+        [Administrator]
+        [Inventory Manager]
+        [Warehouse Staff]
+        [Purchasing Manager]
+        [Sales Manager]
+        [Customer Service Representative]
+        [Accountant]
+        [Auditor]
+        [System User]
+        [Customer]
+        [Standard User]
+    }
+    
+    package "Core System" {
+        [User Management Component] as UMC
+        [Product Management Component] as PMC
+        [Order Processing Component] as OPC
+        [Inventory Tracking Component] as ITC
+        [Shipment Component] as SC
+        [Reporting Component] as RC
+    }
+    
+    [Administrator] --> UMC
+    [Inventory Manager] --> ITC
+    [Warehouse Staff] --> ITC
+    [Purchasing Manager] --> PMC
+    [Sales Manager] --> OPC
+    [Customer Service Representative] --> [Customer]
+    [Accountant] --> RC
+    [Auditor] --> RC
+    [System User] --> UMC
+    [Customer] --> OPC
+    [Standard User] --> OPC
+    
+    UMC --> OPC
+    PMC --> OPC
+    ITC --> OPC
+    OPC --> SC
+    SC --> [Customer]
+    OPC --> RC
+    ITC --> RC
+}
+
+@enduml
