@@ -31,8 +31,31 @@ from .models import (
     Task,
     Event,
     EmailAttachment,
-    SalesTransaction
+    SalesTransaction,
+    Accountant
 )
+
+
+class AccountantForm(forms.ModelForm):
+    permissions = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Accountant
+        fields = ['username', 'email', 'first_name',
+                  'last_name', 'password', 'permissions']
+
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "password": forms.PasswordInput(attrs={"class": "form-control"}),
+            "permissions": forms.CheckboxSelectMultiple(attrs={"class": "form-control"}),
+        }
 
 
 class UserForm(UserCreationForm):

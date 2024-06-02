@@ -29,12 +29,17 @@ from .models import (
     Task,
     Event,
     EmailAttachment,
-    SalesTransaction
+    SalesTransaction,
+    Accountant
 )
 
 User = get_user_model()
 
-
+class Accountant(serializers.ModelSerializer):
+    class Meta:
+        model = Accountant
+        fields = '__all__'
+        
 class UserSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for User model. Converts User instances into JSON representation.

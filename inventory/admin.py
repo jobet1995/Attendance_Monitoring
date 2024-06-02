@@ -27,7 +27,27 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
-    EmailAttachment
+    EmailAttachment,
+    SalesTransaction,
+    Accountant
+)
+
+from .forms import (
+    ProductForm,
+    SupplierForm,
+    ProductSupplierForm,
+    WarehouseForm,
+    InventoryForm,
+    OrderForm,
+    OrderDetailForm,
+    CustomerForm,
+    CustomerOrderForm,
+    CustomerOrderDetailForm,
+    ShipmentForm,
+    ShipmentDetailForm,
+    StockAdjustmentForm,
+    InventoryTransactionForm,
+    AccountantForm
 )
 
 admin.site.register(User)
@@ -46,6 +66,8 @@ admin.site.register(ShipmentDetail)
 admin.site.register(StockAdjustment)
 admin.site.register(InventoryTransaction)
 admin.site.register(EmailAttachment)
+admin.site.register(Accountant)
+admin.site.register(SalesTransaction)
 
 
 @admin.register(Task)
@@ -61,3 +83,9 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ("name", "description", "location")
     list_filter = ("start_time", "end_time")
     filter_horizontal = ("participants",)
+
+
+class AccountantAdmin(admin.ModelAdmin):
+    form = AccountantForm
+    list_display = ['first_name', 'last_name', 'email']
+    search_fields = ['first_name', 'last_name']
