@@ -16,12 +16,24 @@ package "Inventory Management System" {
     }
     
     package "Core System" {
-        [User Management Component] as UMC
+        [ Management Component] as UMC
         [Product Management Component] as PMC
         [Order Processing Component] as OPC
         [Inventory Tracking Component] as ITC
-        [Shipment Component] as SC
+        [Shipment Component] as ShC
         [Reporting Component] as RC
+        [Sales Transaction] as ST
+        [Product Catalog] as PC
+        [Stock Control] as StoC
+        [Customer Management Component] as CMC
+        [Sales Order Management Component] as SOMC
+        [Purchase Order Management Component] as PoMC
+        [Supplier Management Component] as SuMC
+        [Warehouse Management Component] as WMC
+        [Transportation Management Component] as TMC
+        [Inventory Optimization Component] as IOC
+        [Multi-Location Management Component] as MLMC
+        [Barcode Scanning / RFID Integration Component] as BSRIC
     }
     
     [Administrator] --> UMC

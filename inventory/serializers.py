@@ -28,12 +28,18 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
-    EmailAttachment
+    EmailAttachment,
+    SalesTransaction,
+    Accountant
 )
 
 User = get_user_model()
 
-
+class Accountant(serializers.ModelSerializer):
+    class Meta:
+        model = Accountant
+        fields = '__all__'
+        
 class UserSerializer(serializers.ModelSerializer):
     """
     @Descrption: Serializer for User model. Converts User instances into JSON representation.
@@ -478,6 +484,7 @@ class EventSerializer(serializers.ModelSerializer):
             "participants",
         ]
 
+
 class EmailAttachmentSerializer(serializers.Serializer):
     """
     @Description: Serializer for the EmailAttachment model.
@@ -495,3 +502,19 @@ class EmailAttachmentSerializer(serializers.Serializer):
             "body",
             "attachments"
         ]
+
+class SalesTransactionSerializer(serializers.ModelSerializer):
+    """
+    @Descrption: Serializer for SalesTransaction model. Converts SalesTransaction instances into JSON representation.
+    @Attributes:
+        - transaction_id: The unique identifier of the sales transaction.
+        - product: The product associated with the sales transaction.
+        - customer: The customer associated with the sales transaction.
+        - quantity: The quantity of the sales transaction.
+        - total_amount: The total amount of the sales transaction.
+        - status: The status of the sales transaction.
+    @Methods: None
+    """
+    class Meta:
+        model = SalesTransaction
+        fields = ['transaction_id', 'product', 'customer', 'quantity', 'total_amount', 'status']

@@ -30,8 +30,32 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
-    EmailAttachment
+    EmailAttachment,
+    SalesTransaction,
+    Accountant
 )
+
+
+class AccountantForm(forms.ModelForm):
+    permissions = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Accountant
+        fields = ['username', 'email', 'first_name',
+                  'last_name', 'password', 'permissions']
+
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "password": forms.PasswordInput(attrs={"class": "form-control"}),
+            "permissions": forms.CheckboxSelectMultiple(attrs={"class": "form-control"}),
+        }
 
 
 class UserForm(UserCreationForm):
@@ -623,3 +647,16 @@ class EmailAttachmentForm(forms.Form):
         "body": forms.Textarea(attrs={"class": "form-control"}),
         "attachment": forms.FileInput(attrs={"class": "form-control"}),
     }
+
+
+class SalesTransactionForm(forms.Form):
+    class Meta:
+        model = SalesTransaction
+        fields = ['product', 'customer', 'quantity', 'total_amount', 'status']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-control'}),
+            'customer': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'total_amount': forms.NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }

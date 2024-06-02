@@ -20,6 +20,40 @@ from django.dispatch import receiver
 User = get_user_model()
 
 
+class Accountant(models.Model):
+    username = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='accountant')
+
+    class Meta:
+        permissions = [
+            ("view_inventory_report", "Can view inventory reports"),
+            ("adjust_inventory_levels", "Can adjust inventory levels"),
+            ("audit_inventory", "Can perform audit of inventory"),
+            ("manage_suppliers", "Can manage suppliers"),
+            ("manage_purchasing", "Can manage purchasing of new inventory"),
+            ("add_supplier", "Can add a new supplier"),
+            ("update_supplier", "Can update existing supplier information"),
+            ("delete_supplier", "Can delete a supplier"),
+            ("manage_pricing", "Can set and change prices for products"),
+            ("set_discounts", "Can set discounts on products"),
+            ("create_invoice", "Can create invoices for transactions"),
+            ("manage_returns", "Can manage product returns"),
+            ("issue_refunds", "Can issue refunds for returns"),
+            ("record_payment", "Can record a payment to a supplier"),
+            ("view_payments", "Can view the payments history"),
+            ("set_tax_rates", "Can set tax rates for products"),
+            ("calculate_taxes", "Can calculate taxes based on set rates")
+        ]
+
+    def __str__(self):
+        return self.user.username
+
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         """
@@ -72,6 +106,7 @@ class EmailAttachment(models.Model):
 
     def __str__(self):
         return self.customer_email
+
 
 class User(AbstractUser, PermissionsMixin):
     """
@@ -477,6 +512,30 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class SalesTransaction(models.Model):
+    """
+    @Description: Represents a sales transaction that can be associated with a product, customer, and quantity.
+    @Attributes:
+        - transaction_id (AutoField): The unique identifier for the transaction.
+        - product (ForeignKey): A foreign key linking to the Product model.
+        - customer (ForeignKey): A foreign key linking to the Customer model.
+        - quantity (IntegerField): The quantity of the product sold.
+        - transaction_date (DateTimeField): The date and time of the transaction.
+        - total_amount (DecimalField): The total amount of the transaction.
+        - status (CharField): The status of the transaction, such as "Paid", "Pending", or "Cancelled".
+    """
+    transaction_id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    transaction_date = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.transaction_id)
 
 
 @receiver(post_save, sender=Order)
