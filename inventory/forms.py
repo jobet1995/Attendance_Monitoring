@@ -30,7 +30,8 @@ from .models import (
     InventoryTransaction,
     Task,
     Event,
-    EmailAttachment
+    EmailAttachment,
+    SalesTransaction
 )
 
 
@@ -623,3 +624,16 @@ class EmailAttachmentForm(forms.Form):
         "body": forms.Textarea(attrs={"class": "form-control"}),
         "attachment": forms.FileInput(attrs={"class": "form-control"}),
     }
+
+
+class SalesTransactionForm(forms.Form):
+    class Meta:
+        model = SalesTransaction
+        fields = ['product', 'customer', 'quantity', 'total_amount', 'status']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-control'}),
+            'customer': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'total_amount': forms.NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }

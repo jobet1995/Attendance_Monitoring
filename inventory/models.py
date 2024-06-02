@@ -73,6 +73,7 @@ class EmailAttachment(models.Model):
     def __str__(self):
         return self.customer_email
 
+
 class User(AbstractUser, PermissionsMixin):
     """
     @Description: Custom user model for managing different roles within the inventory system.
@@ -477,6 +478,30 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class SalesTransaction(models.Model):
+    """
+    @Description: Represents a sales transaction that can be associated with a product, customer, and quantity.
+    @Attributes:
+        - transaction_id (AutoField): The unique identifier for the transaction.
+        - product (ForeignKey): A foreign key linking to the Product model.
+        - customer (ForeignKey): A foreign key linking to the Customer model.
+        - quantity (IntegerField): The quantity of the product sold.
+        - transaction_date (DateTimeField): The date and time of the transaction.
+        - total_amount (DecimalField): The total amount of the transaction.
+        - status (CharField): The status of the transaction, such as "Paid", "Pending", or "Cancelled".
+    """
+    transaction_id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    transaction_date = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.transaction_id)
 
 
 @receiver(post_save, sender=Order)
