@@ -16,7 +16,7 @@ package "Inventory Management System" {
     }
     
     package "Core System" {
-        [ Management Component] as UMC
+        [Management Component] as UMC
         [Product Management Component] as PMC
         [Order Processing Component] as OPC
         [Inventory Tracking Component] as ITC
